@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تعلم Swift و iOS</title>
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      direction: rtl;
+    }
+    header {
+      text-align: center;
+      padding: 50px 20px;
+    }
+    header h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+    header p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+    .lesson-container {
+      max-width: 900px;
+      margin: auto;
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 30px;
+      min-height: 400px;
+    }
+    .lesson {
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+    .lesson.active {
+      display: block;
+    }
+    .lesson h2 {
+      margin-bottom: 15px;
+    }
+    .lesson pre {
+      background: #222;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: left;
+      direction: ltr;
+      overflow-x: auto;
+      color: #00ffcc;
+    }
+    .controls {
+      text-align: center;
+      margin-top: 25px;
+    }
+    .btn {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .next { background: #fff; color: #333; }
+    .prev { background: #333; color: #fff; }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background: rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🍏 تعلم Swift لتطوير iOS</h1>
+    <p>كورس متكامل (20 درس) لتطوير تطبيقات iPhone و iPad باستخدام Swift</p>
+  </header>
+
+  <div class="lesson-container">
+    <!-- الدروس -->
+    <div class="lesson active"><h2>1️⃣ مقدمة عن iOS و Swift</h2><p>Swift لغة برمجة حديثة وسريعة لتطوير تطبيقات Apple.</p><pre>print("Hello Swift!")</pre></div>
+
+    <div class="lesson"><h2>2️⃣ تثبيت Xcode</h2><p>تنزيل Xcode من App Store وضبط بيئة العمل.</p></div>
+
+    <div class="lesson"><h2>3️⃣ المتغيرات والثوابت</h2><pre>var name = "Anes"; let age = 20</pre></div>
+
+    <div class="lesson"><h2>4️⃣ أنواع البيانات</h2><pre>Int, Double, String, Bool</pre></div>
+
+    <div class="lesson"><h2>5️⃣ التحكم (if / switch)</h2><pre>let grade = 15; if grade >= 10 { print("✅ ناجح") }</pre></div>
+
+    <div class="lesson"><h2>6️⃣ الحلقات (for / while)</h2><pre>for i in 1...5 { print(i) }</pre></div>
+
+    <div class="lesson"><h2>7️⃣ الدوال (Functions)</h2><pre>func add(a:Int, b:Int)->Int { return a+b }</pre></div>
+
+    <div class="lesson"><h2>8️⃣ المصفوفات والقوائم</h2><pre>let nums = [1,2,3]; print(nums[0])</pre></div>
+
+    <div class="lesson"><h2>9️⃣ القواميس (Dictionaries)</h2><pre>let user = ["id":1, "name":"Anes"]</pre></div>
+
+    <div class="lesson"><h2>🔟 البرمجة الكائنية (OOP)</h2><pre>class Car { var brand="BMW"; func drive(){ print("🚗 \(brand)") } }</pre></div>
+
+    <div class="lesson"><h2>1️⃣1️⃣ الوراثة (Inheritance)</h2><pre>class Dog: Animal {}</pre></div>
+
+    <div class="lesson"><h2>1️⃣2️⃣ البروتوكولات (Protocols)</h2><pre>protocol Clickable { func click() }</pre></div>
+
+    <div class="lesson"><h2>1️⃣3️⃣ Struct vs Class</h2><pre>struct Point { var x=0; var y=0 }</pre></div>
+
+    <div class="lesson"><h2>1️⃣4️⃣ الواجهات الرسومية (UIKit)</h2><p>إنشاء واجهات بتقنية Storyboard و UIKit</p></div>
+
+    <div class="lesson"><h2>1️⃣5️⃣ SwiftUI</h2><pre>import SwiftUI; Text("Hello World")</pre></div>
+
+    <div class="lesson"><h2>1️⃣6️⃣ التنقل بين الشاشات</h2><p>NavigationView و Segues</p></div>
+
+    <div class="lesson"><h2>1️⃣7️⃣ التعامل مع البيانات (CoreData)</h2><p>حفظ البيانات محلياً باستخدام CoreData</p></div>
+
+    <div class="lesson"><h2>1️⃣8️⃣ التعامل مع API</h2><pre>URLSession.shared.dataTask(with: url){data,_,_ in }</pre></div>
+
+    <div class="lesson"><h2>1️⃣9️⃣ مشروع عملي</h2><p>بناء تطبيق ملاحظات (Notes App) باستخدام SwiftUI</p></div>
+
+    <div class="lesson"><h2>2️⃣0️⃣ الخاتمة والشهادة</h2><p>🎉 مبروك! لقد أنهيت كورس iOS الأساسي</p></div>
+
+    <div class="controls">
+      <button class="btn prev" onclick="prevLesson()">⬅ السابق</button>
+      <button class="btn next" onclick="nextLesson()">التالي ➡</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 منصة تعلم البرمجة | جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    let currentLesson = 0;
+    const lessons = document.querySelectorAll(".lesson");
+
+    function showLesson(index) {
+      lessons.forEach((lesson, i) => {
+        lesson.classList.remove("active");
+        if (i === index) lesson.classList.add("active");
+      });
+    }
+
+    function nextLesson() {
+      if (currentLesson < lessons.length - 1) {
+        currentLesson++;
+        showLesson(currentLesson);
+      }
+    }
+
+    function prevLesson() {
+      if (currentLesson > 0) {
+        currentLesson--;
+        showLesson(currentLesson);
+      }
+    }
+  </script>
+</body>
+</html>

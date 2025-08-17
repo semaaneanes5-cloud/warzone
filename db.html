@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تعلم Big Data</title>
+  <style>
+    body {font-family:"Tahoma",sans-serif;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:#fff;margin:0;padding:0;direction:rtl;}
+    header{text-align:center;padding:40px 20px;}
+    header h1{font-size:42px;margin-bottom:15px;}
+    header p{font-size:18px;opacity:0.8;}
+    .lesson-container{max-width:950px;margin:auto;background:rgba(255,255,255,0.07);border-radius:15px;padding:30px;min-height:400px;}
+    .lesson{display:none;animation:fadeIn .5s;}
+    .lesson.active{display:block;}
+    .lesson h2{margin-bottom:10px;}
+    .lesson pre{background:#111;padding:15px;border-radius:8px;text-align:left;direction:ltr;overflow-x:auto;color:#00ffcc;}
+    .result{background:rgba(0,0,0,.5);padding:10px;border-radius:8px;margin-top:10px;font-size:14px;}
+    .video{margin-top:15px;}
+    .video a{color:#ffd700;text-decoration:none;font-weight:bold;}
+    .controls{text-align:center;margin-top:25px;}
+    .btn{padding:10px 20px;margin:5px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;transition:.3s;}
+    .next{background:#fff;color:#333;}
+    .prev{background:#333;color:#fff;}
+    .btn:hover{transform:scale(1.05);}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    footer{text-align:center;padding:20px;margin-top:40px;background:rgba(255,255,255,0.1);}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📡 تعلم Big Data</h1>
+    <p>من الأساسيات إلى المشاريع العملية باستخدام Hadoop و Spark</p>
+  </header>
+
+  <div class="lesson-container">
+
+    <!-- 1 -->
+    <div class="lesson active">
+      <h2>1️⃣ مقدمة عن Big Data</h2>
+      <p>البيانات الضخمة = بيانات بحجم هائل (TB, PB) تحتاج إلى أدوات خاصة لمعالجتها.</p>
+      <pre># مقدمة نظرية</pre>
+      <div class="result">📌 النتيجة: فهم أهمية Big Data</div>
+      <div class="video"><a href="https://youtu.be/2rJojR-WAEY" target="_blank">🎥 فيديو المقدمة</a></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="lesson">
+      <h2>2️⃣ الفرق بين البيانات التقليدية والبيانات الضخمة</h2>
+      <pre>
+# Traditional Data: GBs, relational DB
+# Big Data: TBs/PBs, distributed
+      </pre>
+      <div class="result">📌 النتيجة: معرفة الفرق</div>
+      <div class="video"><a href="https://youtu.be/Q5qXZ0I-vpc" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="lesson">
+      <h2>3️⃣ Hadoop Ecosystem</h2>
+      <pre>
+HDFS  = التخزين الموزع
+MapReduce = المعالجة الموزعة
+YARN = إدارة الموارد
+      </pre>
+      <div class="result">📌 النتيجة: فهم Hadoop</div>
+      <div class="video"><a href="https://youtu.be/mxR7mO1WfNg" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="lesson">
+      <h2>4️⃣ Apache Spark</h2>
+      <pre>
+# Spark أقوى من MapReduce
+# يوفر: SQL, ML, Streaming, GraphX
+      </pre>
+      <div class="result">📌 النتيجة: فهم Spark</div>
+      <div class="video"><a href="https://youtu.be/U9jG9kYJ5lM" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="lesson">
+      <h2>5️⃣ تثبيت Spark</h2>
+      <pre>
+# تثبيت pyspark
+pip install pyspark
+      </pre>
+      <div class="result">📌 النتيجة: جاهزية البيئة</div>
+      <div class="video"><a href="https://youtu.be/1dX8c3eOqDE" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 6 -->
+    <div class="lesson">
+      <h2>6️⃣ قراءة البيانات</h2>
+      <pre>
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName("BigData").getOrCreate()
+df = spark.read.csv("data.csv", header=True, inferSchema=True)
+df.show(5)
+      </pre>
+      <div class="result">📌 النتيجة: عرض أول 5 صفوف</div>
+      <div class="video"><a href="https://youtu.be/8SGI_XS5OPw" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 7 -->
+    <div class="lesson">
+      <h2>7️⃣ DataFrames</h2>
+      <pre>
+df.printSchema()
+df.select("name","age").show()
+      </pre>
+      <div class="result">📌 النتيجة: فهم DataFrames</div>
+      <div class="video"><a href="https://youtu.be/oQFzpFxlv5A" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 8 -->
+    <div class="lesson">
+      <h2>8️⃣ Transformations</h2>
+      <pre>
+df2 = df.filter(df.age > 30).select("name","age")
+df2.show()
+      </pre>
+      <div class="result">📌 النتيجة: تصفية البيانات</div>
+      <div class="video"><a href="https://youtu.be/9Gz8H0JTXxM" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 9 -->
+    <div class="lesson">
+      <h2>9️⃣ Actions</h2>
+      <pre>
+count = df.count()
+print(count)
+      </pre>
+      <div class="result">📌 النتيجة: عدد الصفوف</div>
+      <div class="video"><a href="https://youtu.be/TUy8bq_sVJw" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 10 -->
+    <div class="lesson">
+      <h2>🔟 SQL مع Spark</h2>
+      <pre>
+df.createOrReplaceTempView("people")
+spark.sql("SELECT name, age FROM people WHERE age > 25").show()
+      </pre>
+      <div class="result">📌 النتيجة: تنفيذ SQL</div>
+      <div class="video"><a href="https://youtu.be/FLcG8kP_W0k" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 11 -->
+    <div class="lesson">
+      <h2>1️⃣1️⃣ Streaming</h2>
+      <pre>
+# Structured Streaming
+lines = spark.readStream.format("socket").option("host","localhost").option("port",9999).load()
+      </pre>
+      <div class="result">📌 النتيجة: قراءة بيانات مباشرة</div>
+      <div class="video"><a href="https://youtu.be/TWQ4N7lYtH0" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 12 -->
+    <div class="lesson">
+      <h2>1️⃣2️⃣ MLlib</h2>
+      <pre>
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.regression import LinearRegression
+      </pre>
+      <div class="result">📌 النتيجة: ML مع Spark</div>
+      <div class="video"><a href="https://youtu.be/JwvwkSpsG2c" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 13 -->
+    <div class="lesson">
+      <h2>1️⃣3️⃣ GraphX</h2>
+      <pre>
+# Spark GraphFrames للتعامل مع الرسوم البيانية
+      </pre>
+      <div class="result">📌 النتيجة: فهم Graph Data</div>
+      <div class="video"><a href="https://youtu.be/-Y7Qw07JrQs" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 14 -->
+    <div class="lesson">
+      <h2>1️⃣4️⃣ Data Cleaning at Scale</h2>
+      <pre>
+df = df.dropna().dropDuplicates()
+      </pre>
+      <div class="result">📌 النتيجة: تنظيف البيانات</div>
+      <div class="video"><a href="https://youtu.be/4oUX6tgz0jA" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 15 -->
+    <div class="lesson">
+      <h2>1️⃣5️⃣ Visualization</h2>
+      <pre>
+# Spark ليس مخصص للتصور
+# نستخدم matplotlib/seaborn بعد جمع البيانات
+      </pre>
+      <div class="result">📌 النتيجة: عمل Visualization</div>
+      <div class="video"><a href="https://youtu.be/rlj9yUqTD7s" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 16 -->
+    <div class="lesson">
+      <h2>1️⃣6️⃣ مشروع: Web Logs</h2>
+      <pre>
+# تحليل Access Logs لسيرفر
+      </pre>
+      <div class="result">📌 النتيجة: معرفة عدد الزيارات</div>
+      <div class="video"><a href="https://youtu.be/JnfgH5Q2n8s" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 17 -->
+    <div class="lesson">
+      <h2>1️⃣7️⃣ مشروع: Social Data</h2>
+      <pre>
+# تحليل بيانات تويتر / فيسبوك
+      </pre>
+      <div class="result">📌 النتيجة: استخراج الترندات</div>
+      <div class="video"><a href="https://youtu.be/6hMC7MMcIGM" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 18 -->
+    <div class="lesson">
+      <h2>1️⃣8️⃣ Recommendation System</h2>
+      <pre>
+# Collaborative Filtering باستخدام ALS
+      </pre>
+      <div class="result">📌 النتيجة: نظام توصية</div>
+      <div class="video"><a href="https://youtu.be/0jKRp13fZyA" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 19 -->
+    <div class="lesson">
+      <h2>1️⃣9️⃣ Dashboard مع Spark + Kafka</h2>
+      <pre>
+# جمع بيانات في الزمن الحقيقي
+      </pre>
+      <div class="result">📌 النتيجة: لوحة تحكم مباشرة</div>
+      <div class="video"><a href="https://youtu.be/sEH-5Y8D5P4" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- 20 -->
+    <div class="lesson">
+      <h2>2️⃣0️⃣ المشروع النهائي: Real-Time Analytics</h2>
+      <pre>
+# Spark + Kafka + Streaming
+      </pre>
+      <div class="result">📌 النتيجة: نظام يعالج البيانات المباشرة</div>
+      <div class="video"><a href="https://youtu.be/H28QqxGW6KQ" target="_blank">🎥 فيديو المشروع</a></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn prev" onclick="prevLesson()">⬅ السابق</button>
+      <button class="btn next" onclick="nextLesson()">التالي ➡</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 منصة تعلم البرمجة | جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    let currentLesson = 0;
+    const lessons = document.querySelectorAll(".lesson");
+    function showLesson(i){lessons.forEach((l,x)=>{l.classList.remove("active");if(x===i)l.classList.add("active");});}
+    function nextLesson(){if(currentLesson<lessons.length-1){currentLesson++;showLesson(currentLesson);}}
+    function prevLesson(){if(currentLesson>0){currentLesson--;showLesson(currentLesson);}}
+  </script>
+</body>
+</html>
+

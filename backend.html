@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مسار الباك-إند | من الصفر إلى النشر</title>
+<meta name="description" content="تعلم الباك-إند: Python/Flask, Node/Express, PHP/Laravel basics, قواعد البيانات، REST, GraphQL, JWT, Docker, Nginx, CI/CD، أمن، اختبارات، مراقبة وتحجيم.">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI","Cairo",Tahoma,Arial,sans-serif;line-height:1.75;background:#0f172a;color:#e2e8f0}
+  :root{
+    --bg:#0f172a;--card:#111827;--muted:#94a3b8;--brand:#22d3ee;--brand-2:#60a5fa;--accent:#34d399;
+    --code:#0b1021;--code-border:#1f2a44;--border:#1f2937;--text:#e2e8f0;--text-2:#cbd5e1
+  }
+  .light{--bg:#f7fafc;--card:#ffffff;--muted:#475569;--brand:#06b6d4;--brand-2:#2563eb;--accent:#10b981;--code:#0b1021;--code-border:#cbd5e1;--border:#e5e7eb;--text:#0f172a;--text-2:#334155;background:var(--bg);color:var(--text)}
+  a{color:var(--brand-2);text-decoration:none} a:hover{text-decoration:underline}
+  code,pre{font-family:ui-monospace,Menlo,Consolas,"Cascadia Code","Fira Code",monospace}
+  header.hero{position:relative;isolation:isolate;border-bottom:1px solid var(--border);
+    background:radial-gradient(1200px 400px at 90% -10%, rgba(34,211,238,.15), transparent 70%),
+               radial-gradient(900px 300px at -10% 0%, rgba(96,165,250,.18), transparent 60%),
+               linear-gradient(180deg, rgba(2,6,23,1) 0%, rgba(2,6,23,.8) 100%)}
+  .hero-inner{max-width:1200px;margin:auto;padding:48px 24px 24px}
+  .badge{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-2);padding:8px 12px;border-radius:999px;font-size:14px}
+  .title{font-size:clamp(28px,5vw,48px);margin:16px 0 8px}
+  .subtitle{color:var(--text-2);max-width:900px}
+  .hero-actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;border:none}
+  .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+  .toggle{margin-inline-start:auto}
+  .stats{display:flex;gap:24px;margin-top:20px;flex-wrap:wrap;color:var(--text-2)}
+  .chip{border:1px dashed var(--border);padding:8px 12px;border-radius:10px}
+  .container{display:grid;grid-template-columns:280px 1fr;gap:24px;max-width:1200px;margin:auto;padding:24px}
+  aside{position:sticky;top:16px;align-self:start;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;height:max-content;max-height:calc(100vh - 32px);overflow:auto}
+  .logo{display:flex;gap:10px;align-items:center;font-weight:900}
+  .search{margin-top:12px;display:flex;gap:8px}
+  .search input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text)}
+  .toc{margin-top:16px;display:grid;gap:6px}
+  .toc details{border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:rgba(255,255,255,.02)}
+  .toc summary{cursor:pointer;list-style:none;font-weight:700}
+  .toc a{display:block;padding:6px 8px;border-radius:8px}
+  .toc a:hover{background:rgba(34,211,238,.12)}
+  .progress-wrap{margin-top:14px}
+  .progress{height:10px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;border:1px solid var(--border)}
+  .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--brand));transition:width .3s}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .pill{border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
+  main{display:grid;gap:24px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
+  .card h2{margin:0 0 8px}
+  .muted{color:var(--muted)}
+  .lesson{scroll-margin-top:90px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .tab{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.04);cursor:pointer}
+  .tab.active{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent}
+  pre{background:var(--code);color:#d1e9ff;border:1px solid var(--code-border);padding:14px;border-radius:12px;overflow:auto}
+  .code-actions{display:flex;gap:8px;margin:8px 0 0}
+  .ghost{background:transparent;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:8px;cursor:pointer}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .note{background:linear-gradient(135deg, rgba(34,211,238,.1), rgba(99,102,241,.1));border:1px dashed var(--border);padding:12px;border-radius:12px}
+  dialog{border:none;border-radius:16px;padding:0;width:min(720px,96vw);background:var(--card);color:var(--text)}
+  .modal-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+  .modal-body{padding:20px}
+  .modal-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+  .tag{display:inline-block;padding:4px 8px;border-radius:8px;background:rgba(52,211,153,.15);color:#10b981;border:1px solid var(--border);font-size:12px}
+  .kbd{border:1px solid var(--border);padding:2px 6px;border-radius:6px;background:rgba(255,255,255,.06)}
+  .cert-preview{border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center;background:linear-gradient(180deg, rgba(34,211,238,.05), transparent)}
+  @media (max-width:980px){.container{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}aside{position:relative;top:0;max-height:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <span class="badge">⚙️ باك-إند كامل • Python / Node / PHP • قواعد بيانات • أمان • نشر</span>
+    <h1 class="title">مسار الباك-إند: من الصفر إلى أول API منتج</h1>
+    <p class="subtitle">تعلّم أساسيات الخوادم، قواعد البيانات، المصادقة، الأمن، الاختبارات، والحاويات. تتبّع تقدّمك، جرّب كويز سريع، واطبع شهادة PDF باسمك.</p>
+    <div class="hero-actions">
+      <button class="btn" id="startBtn">ابدأ من الأساسيات</button>
+      <button class="btn secondary" id="quizBtn">اختبار سريع</button>
+      <button class="btn secondary toggle" id="modeBtn">الوضع الداكن/الفاتح</button>
+    </div>
+    <div class="stats">
+      <span class="chip">⏱️ خطة شهر</span>
+      <span class="chip">🧪 اختبارات قصيرة</span>
+      <span class="chip">🐳 Docker + Nginx</span>
+      <span class="chip">🚀 CI/CD</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <aside>
+    <div class="logo">🧭 <span>الملاحة</span></div>
+    <div class="search"><input id="search" placeholder="ابحث داخل الدروس…"></div>
+    <div class="progress-wrap">
+      <div style="display:flex;gap:8px;align-items:center;margin:8px 0 6px"><strong>التقدم</strong><span class="pill"><span id="progressText">0%</span></span></div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="badges" id="badges"></div>
+    </div>
+    <nav class="toc" id="toc">
+      <details open>
+        <summary>الأساسيات</summary>
+        <a href="#be-intro">ما هو الباك-إند؟</a>
+        <a href="#env-tools">الأدوات والبيئة</a>
+        <a href="#http-rest">HTTP & REST</a>
+      </details>
+      <details>
+        <summary>اختَر لغتك</summary>
+        <a href="#track-tabs">مسارات Python / Node / PHP</a>
+      </details>
+      <details>
+        <summary>قواعد البيانات</summary>
+        <a href="#db-sql">SQL (PostgreSQL/MySQL)</a>
+        <a href="#db-nosql">NoSQL (MongoDB)</a>
+        <a href="#db-orm">ORM & Migrations</a>
+      </details>
+      <details>
+        <summary>المصادقة والأمن</summary>
+        <a href="#auth-jwt">JWT & Sessions</a>
+        <a href="#security">أمن التطبيقات</a>
+      </details>
+      <details>
+        <summary>الاختبارات والجودة</summary>
+        <a href="#testing">اختبارات وحدات وتكامل</a>
+        <a href="#logging">Logs & Monitoring</a>
+      </details>
+      <details>
+        <summary>النشر والتحزيم</summary>
+        <a href="#docker">Docker</a>
+        <a href="#nginx">Nginx عكس وكيل</a>
+        <a href="#ci">CI/CD</a>
+      </details>
+      <details>
+        <summary>المشاريع</summary>
+        <a href="#proj-api">API مهام</a>
+        <a href="#proj-auth">نظام دخول</a>
+      </details>
+      <details>
+        <summary>الشهادة</summary>
+        <a href="#certificate">شهادة PDF</a>
+      </details>
+    </nav>
+    <div style="margin-top:16px"><button class="btn" id="certOpen">🎓 الحصول على الشهادة</button></div>
+  </aside>
+
+  <main id="content">
+    <!-- الأساسيات -->
+    <section class="card lesson" id="be-intro">
+      <h2>ما هو الباك-إند؟</h2>
+      <p class="muted">طبقة الخادم التي تتعامل مع منطق الأعمال، قواعد البيانات، المصادقة، وواجهات برمجية (APIs).</p>
+      <div class="note">الهدف: فهم العلاقة بين العميل (Front-End) والخادم (Back-End) عبر HTTP.</div>
+      <div class="check"><input type="checkbox" data-done="be-intro"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="env-tools">
+      <h2>الأدوات والبيئة</h2>
+      <ul>
+        <li>Git & GitHub</li>
+        <li>مدير الحزم: <strong>pip</strong> أو <strong>npm</strong> أو <strong>composer</strong></li>
+        <li>إدارة المتغيرات السرية: <span class="kbd">.env</span></li>
+      </ul>
+<pre><code># تهيئة Git
+git init
+git add .
+git commit -m "first backend commit"</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="env-tools"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="http-rest">
+      <h2>HTTP & REST سريعًا</h2>
+      <div class="grid-2">
+        <div>
+<pre><code>GET /api/users        # إحضار
+POST /api/users       # إنشاء
+PUT /api/users/1      # تحديث
+DELETE /api/users/1   # حذف</code></pre>
+          <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+        </div>
+        <div class="note">استخدم رموز الحالة: 200 OK، 201 Created، 400 Bad Request، 401 Unauthorized، 404 Not Found…</div>
+      </div>
+      <div class="check"><input type="checkbox" data-done="http-rest"> <label>تم</label></div>
+    </section>
+
+    <!-- مسارات اللغة -->
+    <section class="card lesson" id="track-tabs">
+      <h2>اختر مسارك (تبويب تفاعلي)</h2>
+      <div class="tabs">
+        <button class="tab active" data-tab="py">🐍 Python / Flask</button>
+        <button class="tab" data-tab="node">🟢 Node.js / Express</button>
+        <button class="tab" data-tab="php">🐘 PHP / Laravel (أساسيات)</button>
+      </div>
+
+      <div data-pane="py">
+        <h3>Flask: API بسيط</h3>
+<pre><code>from flask import Flask, jsonify, request
+app = Flask(__name__)
+
+users = [{"id":1,"name":"Anes"}]
+
+@app.get("/api/users")
+def list_users():
+    return jsonify(users)
+
+@app.post("/api/users")
+def add_user():
+    data = request.get_json()
+    users.append({"id":len(users)+1,"name":data["name"]})
+    return jsonify({"ok":True}), 201
+
+if __name__ == "__main__":
+    app.run()</code></pre>
+        <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      </div>
+
+      <div data-pane="node" hidden>
+        <h3>Express: API بسيط</h3>
+<pre><code>const express = require("express");
+const app = express();
+app.use(express.json());
+
+let users = [{id:1,name:"Anes"}];
+
+app.get("/api/users",(req,res)=>res.json(users));
+app.post("/api/users",(req,res)=>{
+  users.push({id:users.length+1, name:req.body.name});
+  res.status(201).json({ok:true});
+});
+
+app.listen(3000,()=>console.log("API on :3000"));</code></pre>
+        <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      </div>
+
+      <div data-pane="php" hidden>
+        <h3>PHP (أساسيات Router بسيط)</h3>
+<pre><code>&lt;?php
+$uri = $_SERVER['REQUEST_URI'];
+if ($uri === '/api/hello') {
+  header('Content-Type: application/json');
+  echo json_encode(['msg'=&gt;'Hello API']);
+} else {
+  http_response_code(404);
+  echo 'Not Found';
+}</code></pre>
+        <div class="note">للعمل بإطار Laravel لاحقًا: ابدأ بـ <span class="kbd">composer create-project laravel/laravel</span> ثم عرّف المسارات في <span class="kbd">routes/web.php</span>.</div>
+        <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      </div>
+      <div class="check"><input type="checkbox" data-done="track-tabs"> <label>اخترت مسارك</label></div>
+    </section>
+
+    <!-- قواعد البيانات -->
+    <section class="card lesson" id="db-sql">
+      <h2>SQL: جداول واستعلامات</h2>
+<pre><code>-- إنشاء جدول
+CREATE TABLE users(id SERIAL PRIMARY KEY, name TEXT NOT NULL);
+
+-- إدخال
+INSERT INTO users(name) VALUES ('Anes');
+
+-- قراءة
+SELECT * FROM users WHERE id = 1;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="db-sql"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="db-nosql">
+      <h2>NoSQL: MongoDB</h2>
+<pre><code>// إدراج
+db.users.insertOne({name:"Anes"});
+// إيجاد
+db.users.find({name:"Anes"});</code></pre>
+      <div class="note">الاختيار بين SQL و NoSQL يعتمد على طبيعة البيانات والمعاملات المتعددة (Transactions).</div>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="db-nosql"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="db-orm">
+      <h2>ORM & Migrations</h2>
+<pre><code># Python: SQLAlchemy (تصميم نموذج)
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)</code></pre>
+<pre><code>// Node: Prisma (نموذج)
+model User {
+  id   Int    @id @default(autoincrement())
+  name String
+}</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="db-orm"> <label>تم</label></div>
+    </section>
+
+    <!-- المصادقة والأمن -->
+    <section class="card lesson" id="auth-jwt">
+      <h2>JWT & Sessions</h2>
+<pre><code>// Node: إنشاء JWT
+const jwt = require("jsonwebtoken");
+const token = jwt.sign({uid:1}, process.env.JWT_SECRET, {expiresIn:"1h"});</code></pre>
+<pre><code># Python: التحقق من كلمة السر
+import bcrypt
+hashed = bcrypt.hashpw(b"secret", bcrypt.gensalt())
+bcrypt.checkpw(b"secret", hashed)  # True</code></pre>
+      <div class="note">لا تحفظ كلمات السر بصيغة نصية. استخدم Bcrypt/Argon2. خزّن الأسرار في متغيرات بيئية .env</div>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="auth-jwt"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="security">
+      <h2>أمن التطبيقات</h2>
+      <ul>
+        <li>XSS: عقّم المدخلات وأعد مخرجات آمنة.</li>
+        <li>CSRF: استخدم رموز CSRF أو SameSite Cookies.</li>
+        <li>Rate Limit: حد من الطلبات المتكررة.</li>
+        <li>Headers: Content-Security-Policy, X-Frame-Options…</li>
+      </ul>
+<pre><code>// Express: تفعيل Helmet & Rate Limit
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+app.use(helmet());
+app.use(rateLimit({windowMs: 60*1000, max: 60}));</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="security"> <label>تم</label></div>
+    </section>
+
+    <!-- الاختبارات والمراقبة -->
+    <section class="card lesson" id="testing">
+      <h2>اختبارات وحدات وتكامل</h2>
+<pre><code>// Node + Jest
+test("sum", ()=>{ expect(1+2).toBe(3); });</code></pre>
+<pre><code># Python + pytest
+def test_sum(): assert 1+2==3</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="testing"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="logging">
+      <h2>Logs & Monitoring</h2>
+<pre><code># Python logging
+import logging
+logging.basicConfig(level=logging.INFO)
+logging.info("Server started")</code></pre>
+<pre><code>// Node pino
+const pino = require("pino")();
+pino.info("Server started");</code></pre>
+      <div class="note">تابع المقاييس (CPU/RAM/Latency) واستخدم تنبيهات.</div>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="logging"> <label>تم</label></div>
+    </section>
+
+    <!-- النشر والتحزيم -->
+    <section class="card lesson" id="docker">
+      <h2>Docker: تحزيم التطبيق</h2>
+<pre><code># مثال Dockerfile لـ Node
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+EXPOSE 3000
+CMD ["node","server.js"]</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="docker"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="nginx">
+      <h2>Nginx: عكس وكيل (Reverse Proxy)</h2>
+<pre><code>server {
+  listen 80;
+  server_name example.com;
+  location / {
+    proxy_pass http://localhost:3000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+}</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="nginx"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="ci">
+      <h2>CI/CD: نشر تلقائي</h2>
+<pre><code># GitHub Actions (Node مثال)
+name: ci
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 18}
+      - run: npm ci
+      - run: npm test</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="ci"> <label>تم</label></div>
+    </section>
+
+    <!-- المشاريع -->
+    <section class="card lesson" id="proj-api">
+      <h2>مشروع 1: API مهام (CRUD)</h2>
+      <ol>
+        <li>نموذج المهمة: id, title, done</li>
+        <li>نقاط النهاية: GET/POST/PUT/DELETE</li>
+        <li>حفظ بسيط في الذاكرة ثم DB</li>
+      </ol>
+      <div class="check"><input type="checkbox" data-done="proj-api"> <label>أنجزت المشروع</label></div>
+    </section>
+
+    <section class="card lesson" id="proj-auth">
+      <h2>مشروع 2: نظام دخول باستخدام JWT</h2>
+      <ul>
+        <li>تسجيل/دخول</li>
+        <li>تشفير كلمات السر</li>
+        <li>حماية مسارات خاصة</li>
+      </ul>
+      <div class="check"><input type="checkbox" data-done="proj-auth"> <label>أنجزت المشروع</label></div>
+    </section>
+
+    <!-- الشهادة -->
+    <section class="card lesson" id="certificate">
+      <h2>🎓 شهادة الإتمام</h2>
+      <p class="muted">عند وصول التقدم إلى 100% يمكنك توليد شهادة PDF باسمك.</p>
+      <div class="grid-2">
+        <div class="cert-preview">
+          <h3>Backend Engineering Track</h3>
+          <p>هذه شهادة تفيد بأن</p>
+          <h2 id="certNamePrev">اسم الطالب</h2>
+          <p>قد أتم مسار الباك-إند الأساسي بنجاح.</p>
+          <small id="certDatePrev"></small>
+        </div>
+        <div>
+          <label>اسمك الكامل</label>
+          <input id="certName" placeholder="اكتب اسمك" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text)">
+          <button class="btn" id="makeCert" style="margin-top:10px">إنشاء الشهادة PDF</button>
+          <p class="muted">شهادة تدريب غير أكاديمية — مناسبة للبورتفوليو و LinkedIn.</p>
+        </div>
+      </div>
+      <div class="check"><input type="checkbox" data-done="certificate"> <label>استلمت الشهادة</label></div>
+    </section>
+  </main>
+</div>
+
+<!-- Quiz Modal -->
+<dialog id="quizModal">
+  <div class="modal-head">
+    <strong>🧪 اختبار سريع</strong><span class="tag">5 أسئلة</span>
+    <button class="ghost" id="closeQuiz" style="margin-inline-start:auto">إغلاق</button>
+  </div>
+  <div class="modal-body" id="quizBody"></div>
+  <div class="modal-foot">
+    <button class="btn secondary" id="resetQuiz">إعادة</button>
+    <button class="btn" id="submitQuiz">تحقق من الإجابات</button>
+  </div>
+</dialog>
+
+<!-- jsPDF for certificate -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+/* Helpers */
+const $ = s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const LS = {get:k=>JSON.parse(localStorage.getItem(k)||"null"), set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+
+/* Theme */
+const root=document.body, savedMode=LS.get("mode-backend"); if(savedMode==="light") root.classList.add("light");
+$("#modeBtn").onclick=()=>{root.classList.toggle("light"); LS.set("mode-backend", root.classList.contains("light")?"light":"dark");};
+
+/* Start scroll */
+$("#startBtn").onclick=()=>document.getElementById("be-intro").scrollIntoView({behavior:"smooth"});
+
+/* Search */
+$("#search").addEventListener("input", e=>{
+  const q=e.target.value.toLowerCase();
+  $$("#content .lesson").forEach(sec=>sec.style.display = sec.textContent.toLowerCase().includes(q) ? "" : "none");
+});
+
+/* Copy buttons */
+$$(".code-actions .copy").forEach(b=>{
+  b.onclick=()=>{
+    const code=b.closest(".card").querySelector("pre code").innerText;
+    navigator.clipboard.writeText(code); b.textContent="✅ نُسخ"; setTimeout(()=>b.textContent="نسخ",1200);
+  };
+});
+
+/* Tabs */
+const tabs=$$(".tab"), panes=$$("[data-pane]");
+tabs.forEach(t=>t.onclick=()=>{
+  tabs.forEach(x=>x.classList.remove("active")); t.classList.add("active");
+  panes.forEach(p=>p.hidden = p.getAttribute("data-pane")!==t.dataset.tab);
+});
+
+/* Progress */
+const checks=$$("input[type='checkbox'][data-done]");
+function updateProgress(){
+  const total=checks.length, done=checks.filter(c=>c.checked).length, pct=Math.round(done/total*100)||0;
+  $("#bar").style.width=pct+"%"; $("#progressText").textContent=pct+"%";
+  const holder=$("#badges"); holder.innerHTML="";
+  const mk=t=>{const s=document.createElement("span"); s.className="pill"; s.textContent=t; return s;};
+  if(pct>=10) holder.appendChild(mk("🚀 البداية"));
+  if(pct>=40) holder.appendChild(mk("🧠 ثابت"));
+  if(pct>=70) holder.appendChild(mk("⚙️ مهاري"));
+  if(pct===100) holder.appendChild(mk("🏆 محترف المسار"));
+  $("#certDatePrev").textContent="التاريخ: "+new Date().toLocaleDateString();
+}
+checks.forEach(c=>{
+  const k="be-done:"+c.dataset.done;
+  c.checked=!!LS.get(k);
+  c.addEventListener("change",()=>{LS.set(k,c.checked); updateProgress();});
+});
+updateProgress();
+
+/* Quiz */
+const quiz=[
+  {q:"أي بروتوكول يستخدم بين العميل والخادم؟",choices:["FTP","HTTP","SMTP"],a:1},
+  {q:"أي رمز حالة يعني تم الإنشاء؟",choices:["200","201","404"],a:1},
+  {q:"أين يجب حفظ الأسرار؟",choices:["داخل Git","ملف .env","في الكود مباشرة"],a:1},
+  {q:"أي قاعدة تناسب معاملات معقدة؟",choices:["MongoDB","PostgreSQL","Redis"],a:1},
+  {q:"ما التقنية لتحزيم التطبيقات؟",choices:["Docker","jQuery","Sass"],a:0},
+];
+function renderQuiz(){
+  const host=$("#quizBody"); host.innerHTML="";
+  quiz.forEach((it,i)=>{
+    const wrap=document.createElement("div"); wrap.style.marginBottom="12px";
+    wrap.innerHTML=`<strong>${i+1}. ${it.q}</strong><div style="display:grid;gap:6px;margin-top:6px">
+      ${it.choices.map((c,ci)=>`<label style="display:flex;gap:8px;align-items:center">
+        <input type="radio" name="q${i}" value="${ci}"> ${c}
+      </label>`).join("")}
+    </div>`;
+    host.appendChild(wrap);
+  });
+}
+$("#quizBtn").onclick=()=>{renderQuiz(); $("#quizModal").showModal();};
+$("#closeQuiz").onclick=()=>$("#quizModal").close();
+$("#resetQuiz").onclick=()=>renderQuiz();
+$("#submitQuiz").onclick=()=>{
+  let score=0; quiz.forEach((it,i)=>{const v=document.querySelector(`input[name="q${i}"]:checked`); if(v && Number(v.value)===it.a) score++;});
+  const total=quiz.length, pct=Math.round(score/total*100);
+  $("#quizBody").insertAdjacentHTML("beforeend", `<div class="note" style="margin-top:10px">نتيجتك: <strong>${score}/${total}</strong> (${pct}%)</div>`);
+};
+
+/* Certificate */
+const nameInput=$("#certName"), namePrev=$("#certNamePrev");
+nameInput.addEventListener("input",()=>namePrev.textContent=nameInput.value||"اسم الطالب");
+$("#certOpen").onclick=()=>document.getElementById("certificate").scrollIntoView({behavior:"smooth"});
+
+document.getElementById("makeCert").onclick=()=>{
+  const { jsPDF } = window.jspdf;
+  const doc=new jsPDF({orientation:"landscape",unit:"pt",format:"a4"});
+  const N=(nameInput.value||"طالب مجتهد").trim();
+  doc.setFillColor(9,14,36); doc.rect(0,0,842,595,"F");
+  doc.setDrawColor(34,211,238); doc.setLineWidth(4); doc.roundedRect(24,24,842-48,595-48,14,14,"S");
+  doc.setTextColor(255,255,255); doc.setFontSize(28); doc.text("Backend Engineering Track", 421, 120, {align:"center"});
+  doc.setTextColor(160,208,255); doc.setFontSize(14); doc.text("تشهد المنصة بأن صاحب الاسم أدناه قد أتم مسار الباك-إند الأساسي.", 421, 160, {align:"center"});
+  doc.setTextColor(255,255,255); doc.setFontSize(36); doc.text(N, 421, 240, {align:"center"});
+  doc.setFontSize(14); doc.setTextColor(180,225,255);
+  doc.text(`التاريخ: ${new Date().toLocaleDateString()}`, 140, 320);
+  doc.text("Python • Node • PHP | SQL/NoSQL | Auth & Security | Docker/Nginx/CI", 140, 350);
+  doc.setDrawColor(96,165,250); doc.line(600,340,760,340); doc.setTextColor(200,230,255); doc.text("التوقيع", 680, 360, {align:"center"});
+  doc.save("Backend-Certificate.pdf");
+};
+
+/* Smooth anchors */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener("click",e=>{
+    const id=a.getAttribute("href").substring(1), t=document.getElementById(id);
+    if(t){e.preventDefault(); t.scrollIntoView({behavior:"smooth"});}
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مسار تعلم الآلة | Machine Learning Pro</title>
+<meta name="description" content="دورة تعلم الآلة من الصفر حتى المشاريع: NumPy, Pandas, Matplotlib, Scikit-learn, Keras. كل درس بكود ونتيجة وتمرين وروابط فيديو.">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  :root{
+    --bg:#0b1224;--card:#111936;--muted:#93a4c3;--border:#1d2747;--brand:#22d3ee;--brand2:#60a5fa;--accent:#34d399;--text:#e6efff;--text2:#cbd5e1;--code:#0b1021;--codeb:#1f2a44
+  }
+  body{margin:0;background:radial-gradient(1100px 400px at 100% -10%, rgba(34,211,238,.12), transparent 70%),linear-gradient(180deg,#070b18 0%, #0b1224 50%, #0b1224 100%);color:var(--text);font-family:system-ui,-apple-system,"Cairo","Segoe UI",Tahoma,Arial}
+  a{color:var(--brand2);text-decoration:none} a:hover{text-decoration:underline}
+  header.hero{border-bottom:1px solid var(--border);padding:40px 22px}
+  .hero-inner{max-width:1200px;margin:auto}
+  .title{font-size:clamp(26px,5vw,44px);margin:8px 0}
+  .subtitle{color:var(--text2);max-width:900px}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .chip{border:1px dashed var(--border);padding:6px 10px;border-radius:999px;color:var(--text2)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer}
+  .btn.secondary{background:transparent}
+  .wrap{display:grid;grid-template-columns:290px 1fr;gap:20px;max-width:1200px;margin:auto;padding:22px}
+  aside{position:sticky;top:16px;align-self:start;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;height:max-content;max-height:calc(100vh - 32px);overflow:auto}
+  .search{display:flex;gap:8px;margin-top:8px}
+  .search input{width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text)}
+  .progress{height:10px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:10px 0}
+  .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--brand));transition:width .3s}
+  nav a{display:block;padding:8px;border-radius:8px}
+  nav a:hover{background:rgba(34,211,238,.1)}
+  main{display:grid;gap:16px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+  h2{margin:4px 0 8px}
+  .muted{color:var(--muted)}
+  pre{background:var(--code);border:1px solid var(--codeb);color:#d1e9ff;border-radius:12px;padding:14px;overflow:auto;direction:ltr;text-align:left}
+  .out{background:#07111f;border:1px dashed #234; color:#9fe89f}
+  .code-actions{display:flex;gap:8px;margin-bottom:8px}
+  .ghost{background:transparent;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:8px;cursor:pointer}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .note{background:linear-gradient(135deg, rgba(34,211,238,.08), rgba(99,102,241,.08));border:1px dashed var(--border);padding:12px;border-radius:12px}
+  .videos a{display:inline-block;margin:6px 8px 0 0;padding:6px 10px;border:1px solid var(--border);border-radius:8px}
+  .badge{display:inline-flex;gap:6px;align-items:center;font-size:12px;border:1px solid var(--border);padding:3px 8px;border-radius:999px;color:var(--text2)}
+  .exercise{border-top:1px dashed var(--border);margin-top:10px;padding-top:10px}
+  @media (max-width:980px){.wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="badge">🤖 مسار تعلم الآلة • عملي 20 درس</div>
+    <h1 class="title">تعلم الآلة: من الصفر إلى النماذج والـ Deep Learning</h1>
+    <p class="subtitle">كل درس يحتوي شرحًا، كودًا قابلًا للتشغيل، <strong>نتيجة متوقعة</strong>، تمرينًا، وروابط فيديو (روابط بحث يوتيوب فقط). مثالي للتعلّم الذاتي والمشاريع.</p>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="start">ابدأ الآن</button>
+      <button class="btn secondary" id="dark">الوضع الداكن/الفاتح</button>
+    </div>
+    <div class="chips">
+      <span class="chip">🧮 NumPy</span>
+      <span class="chip">🗂️ Pandas</span>
+      <span class="chip">📈 Matplotlib</span>
+      <span class="chip">🧪 Scikit-learn</span>
+      <span class="chip">🧠 Keras</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside>
+    <strong>📚 المحتوى</strong>
+    <div class="search"><input id="q" placeholder="ابحث داخل الدروس…"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><span class="badge">التقدم: <span id="pct">0%</span></span></div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <nav id="toc"></nav>
+    <div class="note" style="margin-top:10px">💡 شغّل الأكواد محليًا داخل <span class="badge">Jupyter</span> أو أي محرر Python. قد تختلف النتائج الطفيفة حسب الإصدار/التجربة.</div>
+  </aside>
+
+  <main id="content">
+
+    <!-- L1 -->
+    <section class="card lesson" id="l1">
+      <h2>1) مقدمة وأنواع تعلم الآلة</h2>
+      <p class="muted">تعلم الآلة يعلّم الحاسوب أن يستنتج أنماطًا من البيانات. الأنواع: خاضع للإشراف، غير خاضع، تعزيزي.</p>
+      <div class="row">
+        <div>
+          <div class="code-actions"><button class="ghost copy">نسخ الكود</button></div>
+<pre><code># أنواع تعلم الآلة كمثال وصفي
+types = {
+  "Supervised": ["Regression","Classification"],
+  "Unsupervised": ["Clustering","Dimensionality Reduction"],
+  "Reinforcement": ["Policy Learning"]
+}
+for k,v in types.items():
+    print(k, "→", ", ".join(v))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>Supervised → Regression, Classification
+Unsupervised → Clustering, Dimensionality Reduction
+Reinforcement → Policy Learning</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أضف أمثلة تطبيقية لكل نوع (مثال: تصنيف الرسائل كسبام/ليس سبام).</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=تعلم+الآلة+مقدمة" target="_blank">🎥 بحث: مقدمة تعلم الآلة (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=machine+learning+introduction" target="_blank">🎥 Intro ML (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l1"> <label>تم</label></div>
+    </section>
+
+    <!-- L2 -->
+    <section class="card lesson" id="l2">
+      <h2>2) إعداد البيئة و Jupyter</h2>
+      <p class="muted">نثبّت الحزم اللازمة ونفتح Jupyter Notebook.</p>
+      <div class="row">
+        <div>
+<pre><code># في الطرفية:
+# python -m venv .venv && source .venv/bin/activate  (ويندوز: .venv\Scripts\activate)
+pip install numpy pandas scikit-learn matplotlib jupyter</code></pre>
+<pre><code># داخل بايثون: اختبار المكتبات
+import sys, numpy as np, pandas as pd, sklearn, matplotlib
+print("OK", sys.version)</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>OK 3.11.x  # قد تختلف نسخة بايثون لديك</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أنشئ Notebook باسم <em>intro.ipynb</em> واكتب خلية تطبع مصفوفة 3×3 بـ NumPy.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Jupyter+Notebook+شرح" target="_blank">🎥 بحث: Jupyter (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=setup+python+machine+learning+environment" target="_blank">🎥 Setup ML Env (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l2"> <label>تم</label></div>
+    </section>
+
+    <!-- L3 -->
+    <section class="card lesson" id="l3">
+      <h2>3) NumPy أساسيات</h2>
+      <p class="muted">المصفوفات والمتجهات والعمليات المتجهة.</p>
+      <div class="row">
+        <div>
+<pre><code>import numpy as np
+a = np.arange(1,7).reshape(2,3)
+b = np.array([[1,0,1],[0,1,0]])
+s = a + b
+m = a @ b.T
+print("a=\\n", a, "\\n---\\ns=\\n", s, "\\n---\\nm=\\n", m)</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>a=
+ [[1 2 3]
+  [4 5 6]]
+---
+s=
+ [[2 2 4]
+  [4 6 6]]
+---
+m=
+ [[ 4  2]
+  [10  5]]</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أنشئ مصفوفة 4×4 عشوائية واحسب المحدد (np.linalg.det).</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=NumPy+أساسيات" target="_blank">🎥 بحث: NumPy (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=numpy+tutorial" target="_blank">🎥 NumPy Tutorial (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l3"> <label>تم</label></div>
+    </section>
+
+    <!-- L4 -->
+    <section class="card lesson" id="l4">
+      <h2>4) Pandas: سلاسل وجداول</h2>
+      <p class="muted">قراءة بيانات، فلترة، تجميع.</p>
+      <div class="row">
+        <div>
+<pre><code>import pandas as pd
+df = pd.DataFrame({"city":["A","B","A","C"],"sales":[10,20,15,8]})
+g = df.groupby("city")["sales"].sum().reset_index()
+print(df, "\\n---\\n", g)</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>  city  sales
+0    A     10
+1    B     20
+2    A     15
+3    C      8
+---
+  city  sales
+0    A     25
+1    B     20
+2    C      8</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أضف عمودًا يحسب نسبة مبيعات كل صف إلى الإجمالي.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Pandas+شرح" target="_blank">🎥 Pandas (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=pandas+tutorial" target="_blank">🎥 Pandas Tutorial (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l4"> <label>تم</label></div>
+    </section>
+
+    <!-- L5 -->
+    <section class="card lesson" id="l5">
+      <h2>5) Matplotlib: تصور سريع</h2>
+      <p class="muted">رسوم خطية وأعمدة وتوزيعات.</p>
+      <div class="row">
+        <div>
+<pre><code>import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0, 2*np.pi, 100)
+y = np.sin(x)
+plt.plot(x,y); plt.title("Sine"); plt.xlabel("x"); plt.ylabel("sin(x)")
+plt.show()</code></pre>
+        </div>
+        <div>
+<pre class="out"><code># نافذة رسم تعرض منحنى جيبي (Sine) بعناوين المحاور</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> ارسم مخطط أعمدة لمبيعات المدن من درس Pandas.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Matplotlib+تعلم" target="_blank">🎥 Matplotlib (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=matplotlib+tutorial" target="_blank">🎥 Matplotlib Tutorial (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l5"> <label>تم</label></div>
+    </section>
+
+    <!-- L6 -->
+    <section class="card lesson" id="l6">
+      <h2>6) تنظيف البيانات و EDA مختصر</h2>
+      <div class="row">
+        <div>
+<pre><code>import pandas as pd, numpy as np
+df = pd.DataFrame({"age":[20, np.nan, 30, 40], "income":[3000, 3500, np.nan, 5000]})
+print(df.isna().sum())
+df["age"].fillna(df["age"].median(), inplace=True)
+df["income"].fillna(df["income"].mean(), inplace=True)
+print(df.describe())</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>age       1
+income    1
+dtype: int64
+             age       income
+count   4.000000     4.000000
+mean   30.000000  3875.000000
+std     8.164966   906.690... 
+min    20.000000  3000.000000
+...</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب إسقاط الصفوف الناقصة بدل تعبئتها وقارن النتائج.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=تنظيف+البيانات+Pandas" target="_blank">🎥 تنظيف البيانات (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=data+cleaning+pandas" target="_blank">🎥 Data Cleaning (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l6"> <label>تم</label></div>
+    </section>
+
+    <!-- L7 -->
+    <section class="card lesson" id="l7">
+      <h2>7) تقسيم البيانات وخط أساس (Linear Regression)</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.datasets import load_diabetes
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, r2_score
+X, y = load_diabetes(return_X_y=True)
+Xtr, Xte, ytr, yte = train_test_split(X,y,test_size=0.2,random_state=42)
+model = LinearRegression().fit(Xtr,ytr)
+pred = model.predict(Xte)
+print("MAE:", round(mean_absolute_error(yte,pred),3),
+      "| R2:", round(r2_score(yte,pred),3))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>MAE: 44.0 | R2: 0.45   # أرقام تقريبية قد تختلف قليلاً</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب <code>Ridge</code> و <code>Lasso</code> وقارن R².</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Linear+Regression+شرح" target="_blank">🎥 الانحدار الخطي (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=linear+regression+scikit+learn" target="_blank">🎥 Linear Regression (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l7"> <label>تم</label></div>
+    </section>
+
+    <!-- L8 -->
+    <section class="card lesson" id="l8">
+      <h2>8) مقاييس التقييم للانحدار والتصنيف</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+y_true = [0,1,1,0,1,0]; y_pred = [0,1,0,0,1,1]
+print("Acc:", accuracy_score(y_true,y_pred))
+print("Precision:", precision_score(y_true,y_pred))
+print("Recall:", recall_score(y_true,y_pred))
+print("F1:", f1_score(y_true,y_pred))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>Acc: 0.666...
+Precision: 0.666...
+Recall: 0.666...
+F1: 0.666...</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> كوّن مصفوفة التباس (confusion matrix) وارسمها.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=مقاييس+التصنيف+Precision+Recall" target="_blank">🎥 المقاييس (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=precision+recall+f1+explained" target="_blank">🎥 Metrics (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l8"> <label>تم</label></div>
+    </section>
+
+    <!-- L9 -->
+    <section class="card lesson" id="l9">
+      <h2>9) Logistic Regression (تصنيف)</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+X,y = make_classification(n_samples=600, n_features=6, n_informative=4, random_state=1)
+Xtr,Xte,ytr,yte = train_test_split(X,y,test_size=.2,random_state=1)
+clf = LogisticRegression(max_iter=1000).fit(Xtr,ytr)
+acc = accuracy_score(yte, clf.predict(Xte))
+print("Accuracy:", round(acc,3))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>Accuracy: 0.90   # قد تختلف</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> استخرج معاملات الموديل وفسّر أهم الميزات.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=اللوجستي+Logistic+Regression+شرح" target="_blank">🎥 Logistic (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=logistic+regression+scikit+learn" target="_blank">🎥 Logistic (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l9"> <label>تم</label></div>
+    </section>
+
+    <!-- L10 -->
+    <section class="card lesson" id="l10">
+      <h2>10) Decision Trees & Random Forest</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+X,y = load_breast_cancer(return_X_y=True)
+Xtr,Xte,ytr,yte = train_test_split(X,y,test_size=.2,random_state=42)
+rf = RandomForestClassifier(n_estimators=200, random_state=42).fit(Xtr,ytr)
+pred = rf.predict(Xte)
+print(classification_report(yte,pred)[:300])</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>              precision    recall  f1-score   support
+           0       0.95      0.94      0.94        43
+           1       0.97      0.98      0.97        71
+    accuracy                           0.96       114
+...</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب <code>max_depth</code> و <code>min_samples_leaf</code> وحسّن الأداء.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Random+Forest+شرح" target="_blank">🎥 Random Forest (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=random+forest+scikit+learn" target="_blank">🎥 Random Forest (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l10"> <label>تم</label></div>
+    </section>
+
+    <!-- L11 -->
+    <section class="card lesson" id="l11">
+      <h2>11) K-Nearest Neighbors (KNN)</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+X,y = load_iris(return_X_y=True)
+Xtr,Xte,ytr,yte = train_test_split(X,y,test_size=.2,random_state=42)
+knn = KNeighborsClassifier(n_neighbors=5).fit(Xtr,ytr)
+print("Acc:", round(accuracy_score(yte, knn.predict(Xte)),3))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>Acc: 0.967</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> ارسم العلاقة بين K والدقة.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=KNN+شرح" target="_blank">🎥 KNN (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=knn+scikit+learn+tutorial" target="_blank">🎥 KNN (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l11"> <label>تم</label></div>
+    </section>
+
+    <!-- L12 -->
+    <section class="card lesson" id="l12">
+      <h2>12) SVM: حدود قرار قوية</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.datasets import make_moons
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+X,y = make_moons(n_samples=600, noise=.25, random_state=0)
+Xtr,Xte,ytr,yte = train_test_split(X,y,test_size=.2,random_state=0)
+svm = SVC(kernel="rbf", C=2, gamma="scale").fit(Xtr,ytr)
+print("Acc:", round(accuracy_score(yte, svm.predict(Xte)),3))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>Acc: 0.95</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب kernel=linear و poly وقارن.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=SVM+شرح" target="_blank">🎥 SVM (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=svm+scikit+learn+tutorial" target="_blank">🎥 SVM (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l12"> <label>تم</label></div>
+    </section>
+
+    <!-- L13 -->
+    <section class="card lesson" id="l13">
+      <h2>13) Naive Bayes ونصوص بسيطة</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import make_pipeline
+texts = ["free offer now", "meeting at 5", "win cash prize", "project deadline"]
+y = [1,0,1,0]  # 1=spam
+model = make_pipeline(CountVectorizer(), MultinomialNB()).fit(texts,y)
+print(model.predict(["win big prize"]))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>[1]  # يتوقع سبام</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أضف عينات أكثر وحسّن النتائج.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Naive+Bayes+شرح" target="_blank">🎥 Naive Bayes (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=naive+bayes+text+classification+sklearn" target="_blank">🎥 NB Text (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l13"> <label>تم</label></div>
+    </section>
+
+    <!-- L14 -->
+    <section class="card lesson" id="l14">
+      <h2>14) المعالجة المسبقة و Pipelines</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score
+X,y = load_breast_cancer(return_X_y=True)
+Xtr,Xte,ytr,yte = train_test_split(X,y,test_size=.2,random_state=42)
+pipe = Pipeline([("scaler", StandardScaler()), ("clf", LogisticRegression(max_iter=1000))]).fit(Xtr,ytr)
+print("Acc:", round(accuracy_score(yte, pipe.predict(Xte)),3))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>Acc: 0.974</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أضف <code>PolynomialFeatures</code> قبل المصنّف وجرب.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=scikit+learn+pipeline+شرح" target="_blank">🎥 Pipelines (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=scikit+learn+pipeline+tutorial" target="_blank">🎥 Pipelines (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l14"> <label>تم</label></div>
+    </section>
+
+    <!-- L15 -->
+    <section class="card lesson" id="l15">
+      <h2>15) الضبط الفائق: GridSearchCV</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.model_selection import GridSearchCV
+from sklearn.svm import SVC
+from sklearn.datasets import make_classification
+X,y = make_classification(n_samples=500, n_features=8, random_state=0)
+grid = {"C":[0.1,1,10], "kernel":["linear","rbf"], "gamma":["scale","auto"]}
+clf = GridSearchCV(SVC(), grid, cv=5, n_jobs=-1).fit(X,y)
+print(clf.best_params_, round(clf.best_score_,3))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>{'C': 10, 'kernel': 'rbf', 'gamma': 'scale'} 0.95   # مثال تقريبي</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب RandomizedSearchCV لمجال أوسع.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=GridSearchCV+شرح" target="_blank">🎥 GridSearchCV (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=gridsearchcv+sklearn" target="_blank">🎥 GridSearchCV (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l15"> <label>تم</label></div>
+    </section>
+
+    <!-- L16 -->
+    <section class="card lesson" id="l16">
+      <h2>16) التجميع (KMeans) وطريقة الكوع</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+import numpy as np
+X, _ = make_blobs(n_samples=400, centers=4, random_state=0)
+inertias=[]
+for k in range(1,8):
+    inertias.append(KMeans(n_clusters=k, n_init="auto").fit(X).inertia_)
+print(inertias[:5])</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>[... قيم انخفاض القصور الذاتي ...]  # ارسمها لترى "الكوع"</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> ارسم القيم وحدد عدد العناقيد المثالي بصريًا.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=KMeans+شرح" target="_blank">🎥 KMeans (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=kmeans+clustering+sklearn" target="_blank">🎥 KMeans (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l16"> <label>تم</label></div>
+    </section>
+
+    <!-- L17 -->
+    <section class="card lesson" id="l17">
+      <h2>17) تقليل الأبعاد: PCA</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.datasets import load_digits
+from sklearn.decomposition import PCA
+X, y = load_digits(return_X_y=True)
+pca = PCA(n_components=2).fit_transform(X)
+print(pca.shape, pca[:2])</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>(1797, 2)
+[[ -1.26   21.27]
+ [  7.93   -0.35]]   # قيم تقريبية</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> ارسم النقاط في بعدين وميّز كل فئة بلون.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=PCA+شرح" target="_blank">🎥 PCA (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=pca+scikit+learn+tutorial" target="_blank">🎥 PCA (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l17"> <label>تم</label></div>
+    </section>
+
+    <!-- L18 -->
+    <section class="card lesson" id="l18">
+      <h2>18) شبكة عصبية بسيطة بـ Keras</h2>
+      <div class="row">
+        <div>
+<pre><code>import tensorflow as tf
+from tensorflow.keras import layers, models
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.utils import to_categorical
+X,y = load_digits(return_X_y=True)
+X = X/16.0
+Xtr,Xte,ytr,yte = train_test_split(X,y,test_size=.2,random_state=42)
+ytr = to_categorical(ytr,10); yte = to_categorical(yte,10)
+model = models.Sequential([
+  layers.Input(shape=(64,)),
+  layers.Dense(64, activation="relu"),
+  layers.Dense(10, activation="softmax")
+])
+model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
+hist = model.fit(Xtr,ytr,epochs=10,batch_size=32,verbose=0,validation_split=.1)
+print("Val acc last:", round(hist.history["val_accuracy"][-1],3))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>Val acc last: 0.96   # تقريبي</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أضف طبقة Dropout وجرب Epochs مختلفة.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Keras+شرح" target="_blank">🎥 Keras (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=keras+beginner+tutorial" target="_blank">🎥 Keras (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l18"> <label>تم</label></div>
+    </section>
+
+    <!-- L19 -->
+    <section class="card lesson" id="l19">
+      <h2>19) حفظ النموذج وتقديمه (Joblib + Flask)</h2>
+      <div class="row">
+        <div>
+<pre><code># train_and_save.py
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+from joblib import dump
+X,y = load_iris(return_X_y=True)
+clf = KNeighborsClassifier().fit(X,y)
+dump(clf, "iris_knn.joblib")</code></pre>
+<pre><code># app.py (واجهة بسيطة)
+from flask import Flask, request, jsonify
+from joblib import load
+import numpy as np
+app = Flask(__name__)
+model = load("iris_knn.joblib")
+@app.post("/predict")
+def predict():
+    x = np.array(request.json["x"]).reshape(1,-1)
+    return jsonify({"pred": int(model.predict(x)[0])})
+# تشغيل: flask --app app run</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>POST /predict {"x":[5.1,3.5,1.4,0.2]} → {"pred":0}</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أضف التحقق من المدخلات وتعامل مع الأخطاء.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Flask+model+deployment+شرح" target="_blank">🎥 نشر نموذج (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=serve+sklearn+model+flask" target="_blank">🎥 Serve Model (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l19"> <label>تم</label></div>
+    </section>
+
+    <!-- L20 -->
+    <section class="card lesson" id="l20">
+      <h2>20) مشروع نهائي + خارطة طريق</h2>
+      <p class="muted">اختر مشروعًا: التنبؤ بالأسعار، كشف الاحتيال، توصية المنتجات. صِف البيانات، جرّب موديلات، قيّم، وانشر API.</p>
+      <div class="note">نصائح: تعقّب التجارب (seed, params)، وثّق النتائج، واكتب تقريرًا مختصرًا.</div>
+      <div class="exercise"><strong>تمرين (تخرج):</strong> نفّذ مشروعًا كاملاً وارفَع كودك مع تقرير README.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=machine+learning+project+from+scratch" target="_blank">🎥 ML Project (EN)</a>
+        <a href="https://www.youtube.com/results?search_query=مشروع+تعلم+الآلة" target="_blank">🎥 مشروع تعلم الآلة (عربي)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l20"> <label>تم</label></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* Helpers */
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const LS={get:k=>JSON.parse(localStorage.getItem(k)||"null"), set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+
+/* Theme */
+$("#dark").onclick=()=>document.body.classList.toggle("light");
+
+/* Start */
+$("#start").onclick=()=>document.getElementById("l1").scrollIntoView({behavior:"smooth"});
+
+/* TOC + progress + search */
+function buildTOC(){
+  const toc=$("#toc"); toc.innerHTML="";
+  $$("#content .lesson").forEach(sec=>{
+    const a=document.createElement("a"); a.textContent=sec.querySelector("h2").textContent; a.href="#"+sec.id; toc.appendChild(a);
+  });
+}
+buildTOC();
+
+const checks=$$("input[type='checkbox'][data-done]");
+function updateProgress(){
+  const total=checks.length, done=checks.filter(c=>c.checked).length, pct=Math.round(done/total*100)||0;
+  $("#bar").style.width=pct+"%"; $("#pct").textContent=pct+"%";
+}
+checks.forEach(c=>{
+  const k="ml-done:"+c.dataset.done; c.checked=!!LS.get(k);
+  c.addEventListener("change",()=>{LS.set(k,c.checked); updateProgress();});
+});
+updateProgress();
+
+$("#q").addEventListener("input",e=>{
+  const q=e.target.value.toLowerCase();
+  $$("#content .lesson").forEach(sec=>{
+    const ok = sec.textContent.toLowerCase().includes(q);
+    sec.style.display = ok ? "" : "none";
+  });
+});
+
+/* Copy */
+document.addEventListener("click",e=>{
+  if(e.target.classList.contains("copy")){
+    const code=e.target.parentElement.nextElementSibling.innerText;
+    navigator.clipboard.writeText(code);
+    e.target.textContent="✅ نُسخ"; setTimeout(()=>e.target.textContent="نسخ الكود",1000);
+  }
+});
+
+/* Smooth anchors */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener("click",e=>{
+    const id=a.getAttribute("href").substring(1), t=document.getElementById(id);
+    if(t){e.preventDefault(); t.scrollIntoView({behavior:"smooth"});}
+  });
+});
+</script>
+</body>
+</html>

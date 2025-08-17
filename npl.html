@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مسار NLP | معالجة اللغات الطبيعية</title>
+<meta name="description" content="دورة NLP عملية: Tokenization, Normalization, TF-IDF, POS/NER, Sentiment, Topic Modeling, Embeddings, Transformers. كل درس بكود ونتيجة وتمرين وروابط فيديو.">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  :root{
+    --bg:#0b1224;--card:#111936;--muted:#93a4c3;--border:#1d2747;--brand:#22d3ee;--brand2:#60a5fa;--accent:#34d399;--text:#e6efff;--text2:#cbd5e1;--code:#0b1021;--codeb:#1f2a44
+  }
+  body{margin:0;background:radial-gradient(1100px 400px at 100% -10%, rgba(34,211,238,.12), transparent 70%),linear-gradient(180deg,#070b18 0%, #0b1224 50%, #0b1224 100%);color:var(--text);font-family:system-ui,-apple-system,"Cairo","Segoe UI",Tahoma,Arial}
+  a{color:var(--brand2);text-decoration:none} a:hover{text-decoration:underline}
+  header.hero{border-bottom:1px solid var(--border);padding:40px 22px}
+  .hero-inner{max-width:1200px;margin:auto}
+  .title{font-size:clamp(26px,5vw,44px);margin:8px 0}
+  .subtitle{color:var(--text2);max-width:900px}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .chip{border:1px dashed var(--border);padding:6px 10px;border-radius:999px;color:var(--text2)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer}
+  .btn.secondary{background:transparent}
+  .wrap{display:grid;grid-template-columns:290px 1fr;gap:20px;max-width:1200px;margin:auto;padding:22px}
+  aside{position:sticky;top:16px;align-self:start;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;height:max-content;max-height:calc(100vh - 32px);overflow:auto}
+  .search{display:flex;gap:8px;margin-top:8px}
+  .search input{width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text)}
+  .progress{height:10px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:10px 0}
+  .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--brand));transition:width .3s}
+  nav a{display:block;padding:8px;border-radius:8px}
+  nav a:hover{background:rgba(34,211,238,.1)}
+  main{display:grid;gap:16px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+  h2{margin:4px 0 8px}
+  .muted{color:var(--muted)}
+  pre{background:var(--code);border:1px solid var(--codeb);color:#d1e9ff;border-radius:12px;padding:14px;overflow:auto;direction:ltr;text-align:left}
+  .out{background:#07111f;border:1px dashed #234; color:#9fe89f}
+  .code-actions{display:flex;gap:8px;margin-bottom:8px}
+  .ghost{background:transparent;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:8px;cursor:pointer}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .note{background:linear-gradient(135deg, rgba(34,211,238,.08), rgba(99,102,241,.08));border:1px dashed var(--border);padding:12px;border-radius:12px}
+  .videos a{display:inline-block;margin:6px 8px 0 0;padding:6px 10px;border:1px solid var(--border);border-radius:8px}
+  .badge{display:inline-flex;gap:6px;align-items:center;font-size:12px;border:1px solid var(--border);padding:3px 8px;border-radius:999px;color:var(--text2)}
+  .exercise{border-top:1px dashed var(--border);margin-top:10px;padding-top:10px}
+  @media (max-width:980px){.wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="badge">🗣️ مسار NLP • عملي 20 درس</div>
+    <h1 class="title">NLP: من المعالجة المسبقة إلى Transformers والمشاريع</h1>
+    <p class="subtitle">كل درس يحتوي شرحًا، كودًا قابلًا للتشغيل، <strong>نتيجة متوقعة</strong>، تمرينًا، وروابط فيديو (روابط بحث يوتيوب فقط).</p>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="start">ابدأ الآن</button>
+      <button class="btn secondary" id="dark">الوضع الداكن/الفاتح</button>
+    </div>
+    <div class="chips">
+      <span class="chip">🔤 Tokenization</span>
+      <span class="chip">🧽 Normalization</span>
+      <span class="chip">🧮 TF-IDF</span>
+      <span class="chip">🏷️ POS / NER</span>
+      <span class="chip">💬 Sentiment</span>
+      <span class="chip">🧠 Transformers</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside>
+    <strong>📚 المحتوى</strong>
+    <div class="search"><input id="q" placeholder="ابحث داخل الدروس…"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><span class="badge">التقدم: <span id="pct">0%</span></span></div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <nav id="toc"></nav>
+    <div class="note" style="margin-top:10px">💡 شغّل الأكواد داخل <span class="badge">Jupyter</span> أو أي محرر Python. النتائج تقريبية وقد تختلف حسب الإصدارات.</div>
+  </aside>
+
+  <main id="content">
+    <!-- L1 -->
+    <section class="card lesson" id="l1">
+      <h2>1) ما هو NLP ولماذا هو مهم؟</h2>
+      <p class="muted">معالجة اللغات الطبيعية تجعل الحاسوب يفهم النصوص: بحث، تصنيف، مشاعر، محادثة، تلخيص…</p>
+      <div class="row">
+        <div>
+          <div class="code-actions"><button class="ghost copy">نسخ الكود</button></div>
+<pre><code># أمثلة تطبيقية
+tasks = ["Tokenization","POS","NER","Sentiment","Summarization","QA"]
+for i,t in enumerate(tasks,1):
+    print(i, t)</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>1 Tokenization
+2 POS
+3 NER
+4 Sentiment
+5 Summarization
+6 QA</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> اذكر ثلاثة استخدامات لنصوص عربية في شركتك/مشروعك.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=NLP+مقدمة" target="_blank">🎥 مقدمة NLP (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=natural+language+processing+introduction" target="_blank">🎥 Intro NLP (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l1"> <label>تم</label></div>
+    </section>
+
+    <!-- L2 -->
+    <section class="card lesson" id="l2">
+      <h2>2) تثبيت البيئة والمكتبات</h2>
+      <p class="muted">سنستخدم: <code>regex, nltk, spacy, scikit-learn, gensim, transformers</code></p>
+      <div class="row">
+        <div>
+<pre><code># في الطرفية:
+pip install regex nltk spacy scikit-learn gensim transformers torch
+python -m spacy download en_core_web_sm
+# نماذج عربية (اختياري): pip install camel-tools</code></pre>
+<pre><code># اختبار سريع
+import nltk, spacy, sklearn, gensim, transformers
+print("OK")</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>OK</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أنشئ بيئة افتراضية ودوّن إصدارات الحزم في requirements.txt.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=اعداد+بيئة+بايثون+NLP" target="_blank">🎥 الإعداد (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=python+nlp+environment+setup" target="_blank">🎥 Setup (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l2"> <label>تم</label></div>
+    </section>
+
+    <!-- L3 -->
+    <section class="card lesson" id="l3">
+      <h2>3) تنظيف النص (Normalization)</h2>
+      <p class="muted">توحيد الحروف، إزالة الرموز، تخفيف التكرار… مهم قبل أي نموذج.</p>
+      <div class="row">
+        <div>
+<pre><code>import re
+def normalize_ar(text):
+    text = text.strip().lower()
+    text = re.sub(r"[ًٌٍَُِّْـ]", "", text)             # التشكيل
+    text = re.sub(r"[“”\"'’`]", "", text)
+    text = re.sub(r"[^\w\s\u0600-\u06FF]", " ", text)  # غير الحروف
+    text = re.sub(r"[اإآأ]", "ا", text).replace("ى","ي").replace("ة","ه")
+    text = re.sub(r"\s+", " ", text)
+    return text
+
+s = "هـــذااا  نصٌّ تجريبي!! رائع؟"
+print(normalize_ar(s))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>هذا نص تجريبي رائع</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> أضف خطوة لإزالة الروابط والبريد الإلكتروني.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=تنظيف+النصوص+العربية+NLP" target="_blank">🎥 تنظيف النصوص (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=text+normalization+nlp" target="_blank">🎥 Normalization (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l3"> <label>تم</label></div>
+    </section>
+
+    <!-- L4 -->
+    <section class="card lesson" id="l4">
+      <h2>4) تقطيع الكلمات (Tokenization)</h2>
+      <div class="row">
+        <div>
+<pre><code>import re
+text = "أحب البرمجه، والذكاء الاصطناعي! NLP رائع."
+tokens = re.findall(r"[\u0600-\u06FF]+", text)  # بسيط للعربية
+print(tokens)</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>['أحب', 'البرمجه', 'والذكاء', 'الاصطناعي', 'رائع']</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب nltk.word_tokenize للإنجليزية وقارن النتائج.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Tokenization+ar+nlp" target="_blank">🎥 Tokenization (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=tokenization+nlp" target="_blank">🎥 Tokenization (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l4"> <label>تم</label></div>
+    </section>
+
+    <!-- L5 -->
+    <section class="card lesson" id="l5">
+      <h2>5) إزالة كلمات الوقف (Stopwords)</h2>
+      <div class="row">
+        <div>
+<pre><code>arabic_stop = {"في","على","و","من","إلى","عن","مع","هذا","هذه","ذلك","تلك"}
+tokens = ["انا","احب","تعلم","البرمجه","و","الذكاء","الاصطناعي"]
+clean = [t for t in tokens if t not in arabic_stop]
+print(clean)</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>['انا', 'احب', 'تعلم', 'البرمجه', 'الذكاء', 'الاصطناعي']</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> كوّن قائمة إيقاف مخصّصة لمドونتك.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=stopwords+arabic+nlp" target="_blank">🎥 Stopwords (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=stopwords+nlp" target="_blank">🎥 Stopwords (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l5"> <label>تم</label></div>
+    </section>
+
+    <!-- L6 -->
+    <section class="card lesson" id="l6">
+      <h2>6) Stemming vs Lemmatization</h2>
+      <div class="row">
+        <div>
+<pre><code># stemming عربي بسيط (بدون مكتبات خارجية)
+def light_stem_ar(w):
+    for p in ["ال","وال","بال","كال","فال","لل"]:
+        if w.startswith(p): w=w[len(p):]
+    for s in ["ه","ها","هم","هن","كما","كما","كم","كن","نا","ي","ك","ا","ون","ين","ان","ات"]:
+        if w.endswith(s): w=w[:-len(s)]
+    return w
+
+words = ["والبرمجه","مبرمجون","برمجيات","كتاباته"]
+print([light_stem_ar(w) for w in words])</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>['برمجه', 'مبرمج', 'برمج', 'كتاب']   # تقريبية</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب Lemmatization بالإنجليزية باستخدام spaCy وقارن.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=stemming+lemmatization+arabic" target="_blank">🎥 Stemming/Lemma (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=stemming+vs+lemmatization" target="_blank">🎥 EN</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l6"> <label>تم</label></div>
+    </section>
+
+    <!-- L7 -->
+    <section class="card lesson" id="l7">
+      <h2>7) N-grams وخصائص النص</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.feature_extraction.text import CountVectorizer
+docs = ["i love nlp","nlp loves python","i love python"]
+cv = CountVectorizer(ngram_range=(1,2))
+X = cv.fit_transform(docs)
+print(cv.get_feature_names_out()[:8])
+print(X.toarray())</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>['i', 'i love', 'love', 'love nlp', 'love python', 'nlp', 'nlp loves', 'python']
+[[1 1 1 1 0 0 0 0]
+ [0 0 0 0 0 1 1 1]
+ [1 0 1 0 1 0 0 1]]</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب n-gram للغة العربية على جمل قصيرة.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=n-grams+شرح" target="_blank">🎥 N-grams (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=n-grams+nlp" target="_blank">🎥 N-grams (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l7"> <label>تم</label></div>
+    </section>
+
+    <!-- L8 -->
+    <section class="card lesson" id="l8">
+      <h2>8) TF-IDF تمثيل النص</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.feature_extraction.text import TfidfVectorizer
+docs = ["الذكاء الاصطناعي رائع","البرمجه رائع","الذكاء مفيد"]
+tfidf = TfidfVectorizer()
+X = tfidf.fit_transform(docs)
+print(tfidf.get_feature_names_out())
+print(X.toarray().round(2))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>['الاصطناعي' 'البرمجه' 'الرائع' 'الذكاء' 'مفيد']
+[[0.71 0.   0.71 0.   0.  ]
+ [0.   0.71 0.71 0.   0.  ]
+ [0.   0.   0.   0.82 0.58]]   # تقريبية</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب min_df وmax_df لتصفية الكلمات الشائعة جدًا/النادرة.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=tfidf+شرح" target="_blank">🎥 TF-IDF (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=tfidf+sklearn" target="_blank">🎥 TF-IDF (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l8"> <label>تم</label></div>
+    </section>
+
+    <!-- L9 -->
+    <section class="card lesson" id="l9">
+      <h2>9) Regex أنماط نصية</h2>
+      <div class="row">
+        <div>
+<pre><code>import re
+txt = "تواصل معنا: support@mail.com أو 213-555-1234"
+emails = re.findall(r"[\\w.]+@[\\w.]+", txt)
+phones = re.findall(r"\\d{3}-\\d{3}-\\d{4}", txt)
+print(emails, phones)</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>['support@mail.com'] ['213-555-1234']</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> استخرج الروابط من نصوصك.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=Regex+شرح+عربي" target="_blank">🎥 Regex (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=regex+python+tutorial" target="_blank">🎥 Regex (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l9"> <label>تم</label></div>
+    </section>
+
+    <!-- L10 -->
+    <section class="card lesson" id="l10">
+      <h2>10) POS Tagging (spaCy)</h2>
+      <div class="row">
+        <div>
+<pre><code>import spacy
+nlp = spacy.load("en_core_web_sm")
+doc = nlp("Apple is looking at buying a U.K. startup for $1 billion")
+print([(t.text, t.pos_) for t in doc[:7]])</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>[('Apple','PROPN'),('is','AUX'),('looking','VERB'),('at','ADP'),('buying','VERB'),('a','DET'),('U.K.','PROPN')]</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب جملة عربية باستخدام نموذج عربي (مثل CAMeL Tools أو spacy-arabic إن توفر).</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=POS+Tagging+spaCy+شرح" target="_blank">🎥 POS (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=spacy+pos+tagging" target="_blank">🎥 POS (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l10"> <label>تم</label></div>
+    </section>
+
+    <!-- L11 -->
+    <section class="card lesson" id="l11">
+      <h2>11) NER التعرف على الكيانات</h2>
+      <div class="row">
+        <div>
+<pre><code>import spacy
+nlp = spacy.load("en_core_web_sm")
+doc = nlp("Elon Musk founded SpaceX in California.")
+print([(e.text, e.label_) for e in doc.ents])</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>[('Elon Musk','PERSON'),('SpaceX','ORG'),('California','GPE')]</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> طبّق NER على أخبار ودوّن أنواع الكيانات الأكثر تكرارًا.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=NER+شرح+spaCy" target="_blank">🎥 NER (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=spacy+ner+tutorial" target="_blank">🎥 NER (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l11"> <label>تم</label></div>
+    </section>
+
+    <!-- L12 -->
+    <section class="card lesson" id="l12">
+      <h2>12) تصنيف المشاعر (Baseline)</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+X = ["i love this","this is bad","amazing product","terrible service","good and nice","not good"]
+y = [1,0,1,0,1,0]  # 1=إيجابي
+vec = TfidfVectorizer()
+Xv = vec.fit_transform(X)
+Xtr,Xte,ytr,yte = train_test_split(Xv,y,test_size=.33,random_state=0)
+clf = LogisticRegression().fit(Xtr,ytr)
+print("Acc:", round(accuracy_score(yte, clf.predict(Xte)),2))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>Acc: 0.5  # عينة صغيرة جدًا؛ استخدم بيانات أكبر</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> زِد البيانات وجرب SVM وLinearSVC.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=sentiment+analysis+شرح+عربي" target="_blank">🎥 Sentiment (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=sentiment+analysis+sklearn" target="_blank">🎥 Sentiment (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l12"> <label>تم</label></div>
+    </section>
+
+    <!-- L13 -->
+    <section class="card lesson" id="l13">
+      <h2>13) Topic Modeling (LDA)</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.feature_extraction.text import CountVectorizer
+docs = ["deep learning with python",
+        "nlp with transformers",
+        "cooking pasta and pizza",
+        "baking cakes and bread"]
+cv = CountVectorizer(stop_words="english")
+X = cv.fit_transform(docs)
+lda = LatentDirichletAllocation(n_components=2, random_state=0).fit(X)
+for i,comp in enumerate(lda.components_):
+    terms = comp.argsort()[-5:][::-1]
+    print("Topic",i, [cv.get_feature_names_out()[t] for t in terms])</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>Topic 0 ['pasta','pizza','cooking','baking','bread']
+Topic 1 ['transformers','nlp','python','learning','deep']   # تقريبية</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> غيّر عدد الموضوعات وجرب نصوصًا عربية.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=LDA+Topic+Modeling+عربي" target="_blank">🎥 LDA (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=lda+topic+modeling+sklearn" target="_blank">🎥 LDA (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l13"> <label>تم</label></div>
+    </section>
+
+    <!-- L14 -->
+    <section class="card lesson" id="l14">
+      <h2>14) Word2Vec (Gensim) تمثيل الكلمات</h2>
+      <div class="row">
+        <div>
+<pre><code>from gensim.models import Word2Vec
+sentences = [["i","love","nlp"],["nlp","loves","python"],["i","love","python"]]
+w2v = Word2Vec(sentences, vector_size=50, window=3, min_count=1, workers=1, epochs=200)
+print(round(float(w2v.wv.similarity("nlp","python")),3))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>0.62   # تقريبية وتتغير بتغير التدريب</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> درّب على نصوص عربية (أخبار/تغريدات) وقِس تشابه الكلمات.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=word2vec+شرح+عربي" target="_blank">🎥 Word2Vec (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=gensim+word2vec+tutorial" target="_blank">🎥 Gensim (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l14"> <label>تم</label></div>
+    </section>
+
+    <!-- L15 -->
+    <section class="card lesson" id="l15">
+      <h2>15) Doc2Vec / Sentence Embeddings</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+sents = ["i love nlp","nlp is great","pizza is tasty"]
+X = TfidfVectorizer().fit_transform(sents)
+sim = cosine_similarity(X)
+print(sim.round(2))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>[[1.   0.53 0.  ]
+ [0.53 1.   0.  ]
+ [0.   0.   1.  ]]</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب Sentence-Transformers (SBERT) للحصول على Embeddings أفضل.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=sentence+embeddings+شرح" target="_blank">🎥 Embeddings (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=sentence+transformers+tutorial" target="_blank">🎥 SBERT (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l15"> <label>تم</label></div>
+    </section>
+
+    <!-- L16 -->
+    <section class="card lesson" id="l16">
+      <h2>16) مقدمة Transformers (Hugging Face)</h2>
+      <div class="row">
+        <div>
+<pre><code>from transformers import pipeline
+clf = pipeline("sentiment-analysis")
+print(clf("I love natural language processing")[0])</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>{'label': 'POSITIVE', 'score': 0.99}   # تقريبية</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> طبّق على نصوص عربية باختيار نموذج عربي من 🤗 Hub.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=transformers+huggingface+شرح" target="_blank">🎥 Transformers (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=hugging+face+pipeline+tutorial" target="_blank">🎥 Pipelines (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l16"> <label>تم</label></div>
+    </section>
+
+    <!-- L17 -->
+    <section class="card lesson" id="l17">
+      <h2>17) تلخيص نص بسيط (Summarization)</h2>
+      <div class="row">
+        <div>
+<pre><code>from transformers import pipeline
+summ = pipeline("summarization")
+text = "Natural Language Processing enables computers to understand human language. It has many applications including search, chatbots and analytics."
+print(summ(text, max_length=30, min_length=10, do_sample=False)[0]["summary_text"])</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>"NLP enables computers to understand language with applications in search, chatbots and analytics."   # تقريبية</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب نصًا أطول وحدد الطول الأقصى/الأدنى.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=text+summarization+arabic" target="_blank">🎥 Summarization (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=huggingface+summarization+pipeline" target="_blank">🎥 Summarization (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l17"> <label>تم</label></div>
+    </section>
+
+    <!-- L18 -->
+    <section class="card lesson" id="l18">
+      <h2>18) ترجمة/أسئلة وأجوبة (Pipelines)</h2>
+      <div class="row">
+        <div>
+<pre><code>from transformers import pipeline
+qa = pipeline("question-answering")
+context = "Python is a popular programming language created by Guido van Rossum."
+print(qa(question="Who created Python?", context=context))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>{'score': 0.99, 'start': 52, 'end': 68, 'answer': 'Guido van Rossum'}   # تقريبية</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> جرّب pipeline للترجمة "translation" على جملة عربية/إنجليزية.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=question+answering+transformers+شرح" target="_blank">🎥 QA (عربي)</a>
+        <a href="https://www.youtube.com/results?search_query=huggingface+question+answering" target="_blank">🎥 QA (EN)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l18"> <label>تم</label></div>
+    </section>
+
+    <!-- L19 -->
+    <section class="card lesson" id="l19">
+      <h2>19) مشروع: مصنّف رسائل (Spam/Not)</h2>
+      <div class="row">
+        <div>
+<pre><code>from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import SGDClassifier
+from sklearn.metrics import classification_report
+X = ["win cash now","meeting at 5","free prize","project deadline","claim your reward","see you tomorrow"]
+y = [1,0,1,0,1,0] # 1=spam
+vec = TfidfVectorizer(ngram_range=(1,2))
+Xv = vec.fit_transform(X)
+Xtr,Xte,ytr,yte = train_test_split(Xv,y,test_size=.33,random_state=42)
+clf = SGDClassifier().fit(Xtr,ytr)
+pred = clf.predict(Xte)
+print(classification_report(yte,pred))</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>precision  recall  f1-score  ...  # تقرير مبسّط (القيم تعتمد على العينة)</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين:</strong> اجلب بيانات حقيقية (SMS Spam)، نظّفها ودرّب موديلًا أقوى.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=sms+spam+classifier+sklearn" target="_blank">🎥 SMS Spam (EN)</a>
+        <a href="https://www.youtube.com/results?search_query=تصنيف+الرسائل+البريد+المزعج+NLP" target="_blank">🎥 Spam (عربي)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l19"> <label>تم</label></div>
+    </section>
+
+    <!-- L20 -->
+    <section class="card lesson" id="l20">
+      <h2>20) نشر نموذج NLP بسيط (Flask)</h2>
+      <p class="muted">نحوّل الموديل إلى خدمة API.</p>
+      <div class="row">
+        <div>
+<pre><code># train_and_save.py
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+import joblib
+X=["i love it","bad experience","amazing app","not good"]
+y=[1,0,1,0]
+vec=TfidfVectorizer().fit(X)
+Xv=vec.transform(X)
+clf=LogisticRegression().fit(Xv,y)
+joblib.dump(vec,"vec.joblib"); joblib.dump(clf,"clf.joblib")</code></pre>
+<pre><code># app.py
+from flask import Flask, request, jsonify
+import joblib
+app=Flask(__name__)
+vec=joblib.load("vec.joblib"); clf=joblib.load("clf.joblib")
+@app.post("/predict")
+def predict():
+    text=request.json.get("text","")
+    X=vec.transform([text]); p=int(clf.predict(X)[0])
+    return jsonify({"pred":p})
+# تشغيل: flask --app app run</code></pre>
+        </div>
+        <div>
+<pre class="out"><code>POST /predict {"text":"i love this"} → {"pred":1}</code></pre>
+        </div>
+      </div>
+      <div class="exercise"><strong>تمرين (تخرج):</strong> أضف توثيق Swagger وحدود معدل واتصال بقاعدة بيانات للسجلات.</div>
+      <div class="videos">
+        <a href="https://www.youtube.com/results?search_query=deploy+nlp+model+flask" target="_blank">🎥 Deploy (EN)</a>
+        <a href="https://www.youtube.com/results?search_query=flask+api+نشر+نموذج" target="_blank">🎥 Flask API (عربي)</a>
+      </div>
+      <div class="check"><input type="checkbox" data-done="l20"> <label>تم</label></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* Helpers */
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const LS={get:k=>JSON.parse(localStorage.getItem(k)||"null"), set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+
+/* Theme */
+$("#dark").onclick=()=>document.body.classList.toggle("light");
+
+/* Start */
+$("#start").onclick=()=>document.getElementById("l1").scrollIntoView({behavior:"smooth"});
+
+/* TOC + progress + search */
+function buildTOC(){
+  const toc=$("#toc"); toc.innerHTML="";
+  $$("#content .lesson").forEach(sec=>{
+    const a=document.createElement("a"); a.textContent=sec.querySelector("h2").textContent; a.href="#"+sec.id; toc.appendChild(a);
+  });
+}
+buildTOC();
+
+const checks=$$("input[type='checkbox'][data-done]");
+function updateProgress(){
+  const total=checks.length, done=checks.filter(c=>c.checked).length, pct=Math.round(done/total*100)||0;
+  $("#bar").style.width=pct+"%"; $("#pct").textContent=pct+"%";
+}
+checks.forEach(c=>{
+  const k="nlp-done:"+c.dataset.done; c.checked=!!LS.get(k);
+  c.addEventListener("change",()=>{LS.set(k,c.checked); updateProgress();});
+});
+updateProgress();
+
+$("#q").addEventListener("input",e=>{
+  const q=e.target.value.toLowerCase();
+  $$("#content .lesson").forEach(sec=>{
+    const ok = sec.textContent.toLowerCase().includes(q);
+    sec.style.display = ok ? "" : "none";
+  });
+});
+
+/* Copy */
+document.addEventListener("click",e=>{
+  if(e.target.classList.contains("copy")){
+    const code=e.target.parentElement.nextElementSibling.innerText;
+    navigator.clipboard.writeText(code);
+    e.target.textContent="✅ نُسخ"; setTimeout(()=>e.target.textContent="نسخ الكود",1000);
+  }
+});
+
+/* Smooth anchors */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener("click",e=>{
+    const id=a.getAttribute("href").substring(1), t=document.getElementById(id);
+    if(t){e.preventDefault(); t.scrollIntoView({behavior:"smooth"});}
+  });
+});
+</script>
+</body>
+</html>
