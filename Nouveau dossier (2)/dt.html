@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>كورس تحليل البيانات (Data Analytics)</title>
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #283c86, #45a247);
+      color: #fff;
+      direction: rtl;
+    }
+    header { text-align: center; padding: 40px 20px; }
+    header h1 { font-size: 40px; margin-bottom: 10px; }
+    header p { font-size: 18px; opacity: 0.9; }
+    .lesson-container {
+      max-width: 950px;
+      margin: auto;
+      background: rgba(255,255,255,0.07);
+      border-radius: 15px;
+      padding: 30px;
+      min-height: 400px;
+    }
+    .lesson { display: none; animation: fadeIn 0.5s; }
+    .lesson.active { display: block; }
+    .lesson h2 { margin-bottom: 10px; }
+    .lesson pre {
+      background: #111;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: left;
+      direction: ltr;
+      overflow-x: auto;
+      color: #00ffcc;
+    }
+    .result {
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .video { margin-top: 15px; }
+    .video a { color: #ffd700; font-weight: bold; text-decoration: none; }
+    .controls { text-align: center; margin-top: 25px; }
+    .btn {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .next { background: #fff; color: #333; }
+    .prev { background: #333; color: #fff; }
+    .btn:hover { transform: scale(1.05); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    footer { text-align: center; padding: 20px; margin-top: 40px; background: rgba(255,255,255,0.1); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📊 كورس تحليل البيانات (Data Analytics)</h1>
+    <p>20 درس كامل من الأساسيات إلى المشاريع العملية باستخدام Python</p>
+  </header>
+
+  <div class="lesson-container">
+
+    <!-- الدرس 1 -->
+    <div class="lesson active">
+      <h2>1️⃣ مقدمة في تحليل البيانات</h2>
+      <pre>!pip install pandas numpy matplotlib seaborn</pre>
+      <div class="result">📌 النتيجة: تجهيز بيئة العمل</div>
+      <div class="video"><a href="https://youtu.be/r-uOLxNrNk8" target="_blank">🎥 فيديو المقدمة</a></div>
+    </div>
+
+    <!-- الدرس 2 -->
+    <div class="lesson">
+      <h2>2️⃣ Pandas – استيراد البيانات</h2>
+      <pre>import pandas as pd
+df = pd.read_csv("data.csv")
+print(df.head())</pre>
+      <div class="result">📌 النتيجة: عرض أول 5 صفوف من البيانات</div>
+      <div class="video"><a href="https://youtu.be/zmdjNSmRXF4" target="_blank">🎥 فيديو Pandas</a></div>
+    </div>
+
+    <!-- الدرس 3 -->
+    <div class="lesson">
+      <h2>3️⃣ تنظيف البيانات</h2>
+      <pre>df = df.dropna()
+df = df.drop_duplicates()</pre>
+      <div class="result">📌 النتيجة: بيانات نظيفة بدون فراغات أو تكرارات</div>
+      <div class="video"><a href="https://youtu.be/h4kT0QYhDRA" target="_blank">🎥 فيديو التنظيف</a></div>
+    </div>
+
+    <!-- الدرس 4 -->
+    <div class="lesson">
+      <h2>4️⃣ استخدام Numpy</h2>
+      <pre>import numpy as np
+arr = np.array([1,2,3,4,5])
+print(arr.mean())</pre>
+      <div class="result">📌 النتيجة: 3.0 (المتوسط الحسابي)</div>
+      <div class="video"><a href="https://youtu.be/GB9ByFAIAH4" target="_blank">🎥 فيديو Numpy</a></div>
+    </div>
+
+    <!-- الدرس 5 -->
+    <div class="lesson">
+      <h2>5️⃣ التعامل مع الملفات</h2>
+      <pre># قراءة Excel
+df = pd.read_excel("data.xlsx")
+
+# قراءة JSON
+df2 = pd.read_json("data.json")</pre>
+      <div class="result">📌 النتيجة: استيراد بيانات من مصادر مختلفة</div>
+      <div class="video"><a href="https://youtu.be/X2vAabgKiuM" target="_blank">🎥 فيديو قراءة البيانات</a></div>
+    </div>
+
+    <!-- الدرس 6 -->
+    <div class="lesson">
+      <h2>6️⃣ الإحصاء الوصفي</h2>
+      <pre>print(df.describe())</pre>
+      <div class="result">📌 النتيجة: المتوسط، الانحراف المعياري، القيم الصغرى والكبرى</div>
+      <div class="video"><a href="https://youtu.be/xjb72r3OmI8" target="_blank">🎥 فيديو الإحصاء</a></div>
+    </div>
+
+    <!-- الدرس 7 -->
+    <div class="lesson">
+      <h2>7️⃣ التصفية والفرز</h2>
+      <pre>print(df[df["age"] > 30])
+print(df.sort_values("salary", ascending=False))</pre>
+      <div class="result">📌 النتيجة: بيانات الأشخاص فوق 30 سنة مرتبة حسب الراتب</div>
+      <div class="video"><a href="https://youtu.be/BLRjQ9XxY4Y" target="_blank">🎥 فيديو التصفية</a></div>
+    </div>
+
+    <!-- الدرس 8 -->
+    <div class="lesson">
+      <h2>8️⃣ التعامل مع النصوص والتواريخ</h2>
+      <pre>df["date"] = pd.to_datetime(df["date"])
+print(df["name"].str.upper())</pre>
+      <div class="result">📌 النتيجة: تحويل النصوص لأحرف كبيرة والتواريخ لصيغة موحدة</div>
+      <div class="video"><a href="https://youtu.be/ktL9dQcA8pM" target="_blank">🎥 فيديو النصوص والتواريخ</a></div>
+    </div>
+
+    <!-- الدرس 9 -->
+    <div class="lesson">
+      <h2>9️⃣ GroupBy</h2>
+      <pre>print(df.groupby("department")["salary"].mean())</pre>
+      <div class="result">📌 النتيجة: متوسط الرواتب لكل قسم</div>
+      <div class="video"><a href="https://youtu.be/j2s4qRmWQ6M" target="_blank">🎥 فيديو GroupBy</a></div>
+    </div>
+
+    <!-- الدرس 10 -->
+    <div class="lesson">
+      <h2>🔟 Pivot Tables</h2>
+      <pre>pivot = pd.pivot_table(df, values="salary", index="department", columns="gender", aggfunc="mean")
+print(pivot)</pre>
+      <div class="result">📌 النتيجة: جدول محوري يوضح الرواتب حسب القسم والجنس</div>
+      <div class="video"><a href="https://youtu.be/lMpNHlx8zNM" target="_blank">🎥 فيديو Pivot</a></div>
+    </div>
+
+    <!-- الدرس 11 -->
+    <div class="lesson">
+      <h2>1️⃣1️⃣ Matplotlib</h2>
+      <pre>import matplotlib.pyplot as plt
+df["salary"].hist()
+plt.show()</pre>
+      <div class="result">📌 النتيجة: رسم هيستوغرام لرواتب الموظفين</div>
+      <div class="video"><a href="https://youtu.be/3Xc3CA655Y4" target="_blank">🎥 فيديو Matplotlib</a></div>
+    </div>
+
+    <!-- الدرس 12 -->
+    <div class="lesson">
+      <h2>1️⃣2️⃣ Seaborn</h2>
+      <pre>import seaborn as sns
+sns.boxplot(x="department", y="salary", data=df)</pre>
+      <div class="result">📌 النتيجة: رسم Boxplot للرواتب حسب الأقسام</div>
+      <div class="video"><a href="https://youtu.be/GcXcSZ0gQps" target="_blank">🎥 فيديو Seaborn</a></div>
+    </div>
+
+    <!-- الدرس 13 -->
+    <div class="lesson">
+      <h2>1️⃣3️⃣ الارتباط Correlation</h2>
+      <pre>print(df.corr())
+sns.heatmap(df.corr(), annot=True, cmap="coolwarm")</pre>
+      <div class="result">📌 النتيجة: مصفوفة ارتباط + Heatmap</div>
+      <div class="video"><a href="https://youtu.be/5EevFZvyKjY" target="_blank">🎥 فيديو Correlation</a></div>
+    </div>
+
+    <!-- الدرس 14 -->
+    <div class="lesson">
+      <h2>1️⃣4️⃣ Visualization متعدد الأبعاد</h2>
+      <pre>sns.pairplot(df, hue="department")</pre>
+      <div class="result">📌 النتيجة: رسم العلاقات بين جميع الأعمدة</div>
+      <div class="video"><a href="https://youtu.be/nbJ-2GKK5i0" target="_blank">🎥 فيديو Pairplot</a></div>
+    </div>
+
+    <!-- الدرس 15 -->
+    <div class="lesson">
+      <h2>1️⃣5️⃣ Dashboard مبسط</h2>
+      <pre>df["salary"].plot(kind="line")
+plt.title("تطور الرواتب مع الوقت")
+plt.show()</pre>
+      <div class="result">📌 النتيجة: رسم خطي للرواتب عبر الزمن</div>
+      <div class="video"><a href="https://youtu.be/zQZ3N5lPa2U" target="_blank">🎥 فيديو Dashboard</a></div>
+    </div>
+
+    <!-- الدرس 16 -->
+    <div class="lesson">
+      <h2>1️⃣6️⃣ مشروع: تحليل مبيعات</h2>
+      <pre>sales = pd.read_csv("sales.csv")
+print(sales.groupby("product")["revenue"].sum())</pre>
+      <div class="result">📌 النتيجة: إجمالي المبيعات لكل منتج</div>
+      <div class="video"><a href="https://youtu.be/2BrpKpWwT2A" target="_blank">🎥 فيديو المبيعات</a></div>
+    </div>
+
+    <!-- الدرس 17 -->
+    <div class="lesson">
+      <h2>1️⃣7️⃣ مشروع: تحليل نتائج الطلاب</h2>
+      <pre>grades = pd.read_csv("grades.csv")
+print(grades.groupby("class")["score"].mean())</pre>
+      <div class="result">📌 النتيجة: متوسط الدرجات لكل قسم</div>
+      <div class="video"><a href="https://youtu.be/otCriSKVV_4" target="_blank">🎥 فيديو الطلاب</a></div>
+    </div>
+
+    <!-- الدرس 18 -->
+    <div class="lesson">
+      <h2>1️⃣8️⃣ مشروع: بيانات مالية</h2>
+      <pre>finance = pd.read_csv("finance.csv")
+finance["balance"].plot()</pre>
+      <div class="result">📌 النتيجة: رسم يوضح حركة الأرصدة</div>
+      <div class="video"><a href="https://youtu.be/Xi52tx6phRU" target="_blank">🎥 فيديو المالية</a></div>
+    </div>
+
+    <!-- الدرس 19 -->
+    <div class="lesson">
+      <h2>1️⃣9️⃣ Mini Dashboard</h2>
+      <pre>import seaborn as sns
+sns.countplot(x="department", data=df)</pre>
+      <div class="result">📌 النتيجة: رسم عددي يوضح عدد الموظفين بكل قسم</div>
+      <div class="video"><a href="https://youtu.be/zQZ3N5lPa2U" target="_blank">🎥 فيديو Mini Dashboard</a></div>
+    </div>
+
+    <!-- الدرس 20 -->
+    <div class="lesson">
+      <h2>2️⃣0️⃣ المشروع النهائي: تحليل بيانات شركة</h2>
+      <pre>company = pd.read_csv("company.csv")
+print(company.groupby("department")["revenue"].sum())
+sns.barplot(x="department", y="revenue", data=company)</pre>
+      <div class="result">📌 النتيجة: تقرير كامل يوضح أداء كل قسم بالشركة</div>
+      <div class="video"><a href="https://youtu.be/2BrpKpWwT2A" target="_blank">🎥 فيديو المشروع النهائي</a></div>
+    </div>
+
+    <!-- أزرار التنقل -->
+    <div class="controls">
+      <button class="btn prev" onclick="prevLesson()">⬅ السابق</button>
+      <button class="btn next" onclick="nextLesson()">التالي ➡</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 منصة تعلم البرمجة | جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    let currentLesson = 0;
+    const lessons = document.querySelectorAll(".lesson");
+
+    function showLesson(index) {
+      lessons.forEach((lesson, i) => {
+        lesson.classList.remove("active");
+        if (i === index) lesson.classList.add("active");
+      });
+    }
+
+    function nextLesson() {
+      if (currentLesson < lessons.length - 1) {
+        currentLesson++;
+        showLesson(currentLesson);
+      }
+    }
+
+    function prevLesson() {
+      if (currentLesson > 0) {
+        currentLesson--;
+        showLesson(currentLesson);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>أكاديمية الفرونت إند | تعلم HTML, CSS, JS من الصفر للاحتراف</title>
+<meta name="description" content="مسار تعلم فرونت إند كامل: HTML, CSS, JavaScript مع مشاريع واختبارات وشهادة PDF." />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  /* ========== Reset + Typography ========== */
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, "Noto Sans Arabic", "Cairo", sans-serif;
+    line-height:1.75; background:#0f172a; color:#e2e8f0;
+  }
+  :root{
+    --bg:#0f172a; --card:#111827; --muted:#94a3b8; --brand:#22d3ee; --brand-2:#60a5fa; --accent:#34d399;
+    --code:#0b1021; --code-border:#1f2a44; --border:#1f2937; --text:#e2e8f0; --text-2:#cbd5e1;
+  }
+  .light{--bg:#f7fafc; --card:#ffffff; --muted:#475569; --brand:#06b6d4; --brand-2:#2563eb; --accent:#10b981;
+         --code:#0b1021; --code-border:#cbd5e1; --border:#e5e7eb; --text:#0f172a; --text-2:#334155; color:var(--text); background:var(--bg)}
+  a{color:var(--brand-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,pre{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Cascadia Code", "Fira Code", monospace}
+  .container{display:grid; grid-template-columns:280px 1fr; gap:24px; max-width:1200px; margin:auto; padding:24px}
+  /* ========== Header/Hero ========== */
+  header.hero{
+    position:relative; overflow:hidden; isolation:isolate;
+    background: radial-gradient(1200px 400px at 90% -10%, rgba(34,211,238,.15), transparent 70%),
+                radial-gradient(900px 300px at -10% 0%, rgba(96,165,250,.18), transparent 60%),
+                linear-gradient(180deg, rgba(2,6,23,1) 0%, rgba(2,6,23,.8) 100%);
+    border-bottom:1px solid var(--border);
+  }
+  .hero-inner{max-width:1200px; margin:auto; padding:48px 24px 24px}
+  .badge{display:inline-flex; gap:8px; align-items:center; border:1px solid var(--border); background:rgba(255,255,255,.04); color:var(--text-2);
+    padding:8px 12px; border-radius:999px; font-size:14px}
+  .title{font-size:clamp(28px, 5vw, 48px); margin:16px 0 8px; color:var(--text)}
+  .subtitle{color:var(--text-2); max-width:800px}
+  .hero-actions{display:flex; gap:12px; margin-top:20px; flex-wrap:wrap}
+  .btn{display:inline-flex; align-items:center; gap:10px; border:1px solid var(--border); background:linear-gradient(135deg, var(--brand), var(--brand-2));
+    color:#fff; padding:12px 18px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 10px 30px rgba(37,99,235,.25); border:none}
+  .btn.secondary{background:transparent; color:var(--text); border:1px solid var(--border)}
+  .toggle{margin-inline-start:auto}
+  .stats{display:flex; gap:24px; margin-top:20px; flex-wrap:wrap; color:var(--text-2)}
+  .stats .chip{border:1px dashed var(--border); padding:8px 12px; border-radius:10px}
+  /* ========== Sidebar ========== */
+  aside{
+    position:sticky; top:16px; align-self:start; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px;
+    height:max-content; max-height:calc(100vh - 32px); overflow:auto;
+  }
+  .logo{display:flex; align-items:center; gap:10px; font-weight:900; color:var(--text)}
+  .search{margin-top:12px; display:flex; gap:8px}
+  .search input{
+    width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text)
+  }
+  .toc{margin-top:16px; display:grid; gap:6px}
+  .toc details{border:1px solid var(--border); border-radius:10px; padding:8px 10px; background:rgba(255,255,255,.02)}
+  .toc summary{cursor:pointer; list-style:none; font-weight:700; color:var(--text)}
+  .toc a{display:block; padding:6px 8px; border-radius:8px}
+  .toc a:hover{background:rgba(34,211,238,.12)}
+  .progress-wrap{margin-top:14px}
+  .progress{height:10px; background:rgba(255,255,255,.06); border-radius:999px; overflow:hidden; border:1px solid var(--border)}
+  .bar{height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--brand)); transition:width .3s}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+  .pill{border:1px solid var(--border); padding:6px 10px; border-radius:999px; font-size:12px; color:var(--muted)}
+  /* ========== Main content cards ========== */
+  main{display:grid; gap:24px}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px
+  }
+  .card h2{margin:0 0 8px}
+  .muted{color:var(--muted)}
+  .lesson{scroll-margin-top:90px}
+  .check{display:flex; align-items:center; gap:10px; margin-top:12px}
+  .check input{transform:scale(1.2)}
+  pre{background:var(--code); color:#d1e9ff; border:1px solid var(--code-border); padding:14px; border-radius:12px; overflow:auto}
+  .code-actions{display:flex; gap:8px; margin:8px 0 0}
+  .ghost{background:transparent; border:1px solid var(--border); color:var(--text); padding:6px 10px; border-radius:8px; cursor:pointer}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  .note{background:linear-gradient(135deg, rgba(34,211,238,.1), rgba(99,102,241,.1)); border:1px dashed var(--border); padding:12px; border-radius:12px}
+  /* ========== Quiz & Modal & Certificate ========== */
+  dialog{border:none; border-radius:16px; padding:0; width:min(700px, 96vw); background:var(--card); color:var(--text)}
+  .modal-head{padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px}
+  .modal-body{padding:20px}
+  .modal-foot{padding:12px 20px; border-top:1px solid var(--border); display:flex; gap:10px; justify-content:flex-end}
+  .tag{display:inline-block; padding:4px 8px; border-radius:8px; background:rgba(52,211,153,.15); color:#10b981; border:1px solid var(--border); font-size:12px}
+  .kbd{font-family:inherit; border:1px solid var(--border); padding:2px 6px; border-radius:6px; background:rgba(255,255,255,.06)}
+  .cert-preview{border:1px dashed var(--border); border-radius:12px; padding:16px; text-align:center; background:linear-gradient(180deg, rgba(34,211,238,.05), transparent)}
+  /* ========== Responsive ========== */
+  @media (max-width: 980px){
+    .container{grid-template-columns:1fr}
+    aside{position:relative; top:0; max-height:none}
+    .grid-3{grid-template-columns:1fr}
+    .grid-2{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <span class="badge">🚀 مسار متكامل • HTML / CSS / JS • مشاريع + شهادة</span>
+    <h1 class="title">أكاديمية الفرونت‑إند: من الصفر إلى أول وظيفة</h1>
+    <p class="subtitle">ابدأ اليوم، أنهِ دروسك على وتيرتك. تتبع تقدمك، جرّب التحديات، واطبع شهادة إتمام PDF باسمك. كل شيء في صفحة واحدة أنيقة وسريعة.</p>
+    <div class="hero-actions">
+      <button class="btn" id="startBtn">ابدأ من الأساسيات</button>
+      <button class="btn secondary" id="quizBtn">اختبر نفسك</button>
+      <button class="btn secondary toggle" id="modeBtn">الوضع الداكن/الفاتح</button>
+    </div>
+    <div class="stats">
+      <span class="chip">⏱️ التزام شهر • خطة يومية</span>
+      <span class="chip">🧪 اختبارات سريعة</span>
+      <span class="chip">🎓 شهادة PDF</span>
+      <span class="chip">📦 مشاريع عملية</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <!-- ========== Sidebar ========== -->
+  <aside>
+    <div class="logo">🧭 <span>الملاحة السريعة</span></div>
+    <div class="search">
+      <input id="search" placeholder="ابحث داخل الدروس… (HTML, CSS, JS)" />
+    </div>
+
+    <div class="progress-wrap">
+      <div style="display:flex; gap:8px; align-items:center; margin:8px 0 6px">
+        <strong>التقدم</strong><span class="pill"><span id="progressText">0%</span></span>
+      </div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="badges" id="badges"></div>
+    </div>
+
+    <nav class="toc" id="toc">
+      <details open>
+        <summary>HTML الأساسيات</summary>
+        <a href="#html-intro">ما هي HTML؟</a>
+        <a href="#html-setup">تجهيز الأدوات</a>
+        <a href="#html-skeleton">هيكل الصفحة</a>
+        <a href="#html-text">العناوين والنصوص</a>
+        <a href="#html-links">الروابط والصور</a>
+        <a href="#html-lists">القوائم والجداول</a>
+        <a href="#html-forms">النماذج ومدخلاتها</a>
+        <a href="#html-media">فيديو وصوت وiframe</a>
+        <a href="#html-semantic">وسوم HTML5 الدلالية</a>
+      </details>
+      <details>
+        <summary>CSS التنسيق</summary>
+        <a href="#css-intro">ما هي CSS؟</a>
+        <a href="#css-selectors">المحددات والوراثة</a>
+        <a href="#css-layout">Flexbox و Grid</a>
+        <a href="#css-typography">الألوان والخطوط</a>
+        <a href="#css-responsive">التجاوب والميديا كويري</a>
+        <a href="#css-animations">Transitions و Animations</a>
+      </details>
+      <details>
+        <summary>JavaScript الأساسيات</summary>
+        <a href="#js-setup">تشغيل JS</a>
+        <a href="#js-core">المتغيرات والدوال</a>
+        <a href="#js-dom">التعامل مع DOM</a>
+        <a href="#js-storage">localStorage</a>
+        <a href="#js-fetch">JSON & Fetch</a>
+      </details>
+      <details>
+        <summary>مشاريع وتحديات</summary>
+        <a href="#proj-landing">مشروع: صفحة هبوط</a>
+        <a href="#proj-todo">مشروع: قائمة مهام</a>
+        <a href="#proj-quiz">مشروع: كويز بسيط</a>
+        <a href="#challenges">تحديات يومية</a>
+      </details>
+      <details>
+        <summary>الشهادة</summary>
+        <a href="#certificate">إنشاء شهادة PDF</a>
+      </details>
+    </nav>
+
+    <div style="margin-top:16px">
+      <button class="btn" id="certOpen">🎓 الحصول على الشهادة</button>
+    </div>
+  </aside>
+
+  <!-- ========== Main ========== -->
+  <main id="content">
+    <!-- ========== HTML Section ========== -->
+    <section class="card lesson" id="html-intro">
+      <h2>HTML: ما هي ولماذا؟</h2>
+      <p class="muted">HTML هي لغة <em>ترميز</em> تبني هيكل صفحة الويب. المتصفح يقرأ الوسوم tags ويحوّلها لعناصر مرئية.</p>
+      <div class="note">هدف اليوم: فهم دور HTML ضمن الثلاثي (HTML هيكل — CSS تصميم — JS تفاعل).</div>
+      <div class="check"><input type="checkbox" data-done="html-intro"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="html-setup">
+      <h2>تجهيز الأدوات</h2>
+      <div class="grid-2">
+        <div>
+          <ul>
+            <li>محرر: <strong>VS Code</strong></li>
+            <li>متصفح حديث: Chrome / Edge / Firefox</li>
+            <li>ملف العمل: <span class="kbd">index.html</span></li>
+          </ul>
+          <div class="note">تلميح: افتح المجلد في VS Code واضغط <span class="kbd">Go Live</span> إن كان لديك Live Server.</div>
+        </div>
+        <div>
+<pre><code>&lt;!-- أول صفحة --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ar" dir="rtl"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;مرحبًا HTML&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    ابدأ هنا 🚀
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          <div class="code-actions">
+            <button class="ghost copy">نسخ</button>
+            <button class="ghost run">تشغيل حي</button>
+          </div>
+          <iframe style="width:100%;height:140px;border:1px solid var(--border);border-radius:8px"></iframe>
+        </div>
+      </div>
+      <div class="check"><input type="checkbox" data-done="html-setup"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="html-skeleton">
+      <h2>هيكل الصفحة (Skeleton)</h2>
+      <p>تعرف على الوسوم: <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>، وتعريف المستند <code>&lt;!DOCTYPE html&gt;</code>.</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ar"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;title&gt;هيكل HTML&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;ترويسة&lt;/header&gt;
+    &lt;main&gt;المحتوى&lt;/main&gt;
+    &lt;footer&gt;تذييل&lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="html-skeleton"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="html-text">
+      <h2>العناوين والنصوص</h2>
+      <p>استخدم <code>h1..h6</code> للعناوين، و<code>p</code> للفقرات، و<code>strong/em</code> للتأكيد.</p>
+<pre><code>&lt;h1&gt;عنوان رئيسي&lt;/h1&gt;
+&lt;p&gt;فقرة تمهيدية مع &lt;strong&gt;نص غامق&lt;/strong&gt; و&lt;em&gt;نص مائل&lt;/em&gt;.&lt;/p&gt;
+&lt;h2&gt;عنوان فرعي&lt;/h2&gt;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="html-text"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="html-links">
+      <h2>روابط وصور</h2>
+      <div class="grid-2">
+        <div>
+<pre><code>&lt;a href="https://example.com" target="_blank" rel="noopener"&gt;زيارة موقع&lt;/a&gt;
+&lt;img src="logo.png" alt="شعار الموقع" width="160"&gt;</code></pre>
+          <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+        </div>
+        <div class="note">ضع نص بديل مناسب في <code>alt</code> لتحسين الوصولية وSEO.</div>
+      </div>
+      <div class="check"><input type="checkbox" data-done="html-links"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="html-lists">
+      <h2>قوائم وجداول</h2>
+<pre><code>&lt;ul&gt;
+  &lt;li&gt;عنصر&lt;/li&gt;
+  &lt;li&gt;عنصر&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;أولاً&lt;/li&gt;
+  &lt;li&gt;ثانيًا&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;الاسم&lt;/th&gt;&lt;th&gt;الدرجة&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;&lt;tr&gt;&lt;td&gt;أنيس&lt;/td&gt;&lt;td&gt;100&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="html-lists"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="html-forms">
+      <h2>النماذج والمدخلات</h2>
+<pre><code>&lt;form&gt;
+  الاسم: &lt;input name="name" required&gt;
+  البريد: &lt;input type="email" required&gt;
+  &lt;button type="submit"&gt;إرسال&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <p class="muted">استعمل خصائص التحقق المدمجة مثل <code>required</code> و <code>type</code>.</p>
+      <div class="check"><input type="checkbox" data-done="html-forms"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="html-media">
+      <h2>وسائط: فيديو وصوت و iframe</h2>
+<pre><code>&lt;video controls width="420"&gt;
+  &lt;source src="intro.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+
+&lt;audio controls&gt;
+  &lt;source src="track.mp3" type="audio/mpeg"&gt;
+&lt;/audio&gt;
+
+&lt;iframe src="https://example.com" title="موقع مضمن"&gt;&lt;/iframe&gt;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="html-media"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="html-semantic">
+      <h2>وسوم HTML5 الدلالية</h2>
+      <p>استخدم <code>header, nav, main, section, article, aside, footer</code> لتحسين البنية وSEO.</p>
+<pre><code>&lt;header&gt;...&lt;/header&gt;
+&lt;nav&gt;...&lt;/nav&gt;
+&lt;main&gt;
+  &lt;article&gt;مقال&lt;/article&gt;
+  &lt;aside&gt;ملاحظات&lt;/aside&gt;
+&lt;/main&gt;
+&lt;footer&gt;حقوق&lt;/footer&gt;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="html-semantic"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <!-- ========== CSS Section (مختصر لكن حيوي) ========== -->
+    <section class="card lesson" id="css-intro">
+      <h2>CSS: التعريف والربط</h2>
+<pre><code>&lt;link rel="stylesheet" href="styles.css"&gt;
+/* أو داخل الصفحة */
+&lt;style&gt; body{font-family:Tahoma} &lt;/style&gt;
+</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="css-intro"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="css-selectors">
+      <h2>المحددات والوراثة</h2>
+<pre><code>/* محددات أساسية */
+h1{color:#1e293b}
+#hero{padding:24px}
+.card .title{font-weight:700}</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="css-selectors"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="css-layout">
+      <h2>التخطيطات: Flexbox و Grid</h2>
+<pre><code>.row{display:flex; gap:12px}
+.grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="css-layout"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="css-typography">
+      <h2>الألوان والخطوط</h2>
+<pre><code>:root{--brand:#2563eb}
+a{color:var(--brand)}
+body{font: 16px/1.7 "Cairo", system-ui}</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="css-typography"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="css-responsive">
+      <h2>التجاوب (Media Queries)</h2>
+<pre><code>@media (max-width: 768px){
+  .container{grid-template-columns:1fr}
+}</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="css-responsive"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="css-animations">
+      <h2>Transitions و Animations</h2>
+<pre><code>.btn{transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+@keyframes pulse{50%{transform:scale(1.03)}}
+.badge{animation:pulse 3s infinite ease-in-out}</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="css-animations"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <!-- ========== JS Section (أساسيات) ========== -->
+    <section class="card lesson" id="js-setup">
+      <h2>تشغيل JavaScript</h2>
+<pre><code>&lt;script&gt;console.log("مرحبا JS")&lt;/script&gt;
+&lt;script src="app.js" defer&gt;&lt;/script&gt;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="js-setup"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="js-core">
+      <h2>المتغيرات والدوال</h2>
+<pre><code>const PI = 3.14;
+let name = "أنيس";
+function greet(n){ return `أهلًا ${n}` }
+console.log(greet(name));</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="js-core"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="js-dom">
+      <h2>التعامل مع DOM</h2>
+<pre><code>document.querySelectorAll("button").forEach(btn=>{
+  btn.addEventListener("click", ()=>console.log("تم النقر"));
+});</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="js-dom"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="js-storage">
+      <h2>localStorage</h2>
+<pre><code>localStorage.setItem("username","Anes");
+const u = localStorage.getItem("username");</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="js-storage"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <section class="card lesson" id="js-fetch">
+      <h2>JSON & Fetch (قراءة بيانات محلية)</h2>
+<pre><code>const data = [{"title":"درس 1"},{"title":"درس 2"}];
+console.table(data);</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="js-fetch"> <label>أنجزت هذا الدرس</label></div>
+    </section>
+
+    <!-- ========== Projects & Challenges ========== -->
+    <section class="card lesson" id="proj-landing">
+      <h2>مشروع 1: صفحة هبوط Product Landing</h2>
+      <p>ابنِ صفحة ترويج لمنتج وهمي (بطل الصفحة، مميزات، دعوة لاتصال).</p>
+      <ul>
+        <li>استخدم: <strong>HTML Semantic</strong> + <strong>Flexbox</strong></li>
+        <li>أضف زر CTA متباينًا، ومساحة شهادات (Testimonials)</li>
+      </ul>
+      <div class="check"><input type="checkbox" data-done="proj-landing"> <label>أنجزت المشروع</label></div>
+    </section>
+
+    <section class="card lesson" id="proj-todo">
+      <h2>مشروع 2: قائمة مهام (بدون باك‑إند)</h2>
+<pre><code>&lt;input id="todoIn"&gt; &lt;button id="add"&gt;أضف&lt;/button&gt;
+&lt;ul id="list"&gt;&lt;/ul&gt;
+&lt;script&gt;
+  const list = document.getElementById("list");
+  document.getElementById("add").onclick = ()=>{
+    const v = document.getElementById("todoIn").value.trim();
+    if(!v) return;
+    const li = document.createElement("li");
+    li.textContent = v; list.appendChild(li);
+    localStorage.setItem("todos", list.innerHTML);
+  };
+  window.onload = ()=>{ list.innerHTML = localStorage.getItem("todos")||"" };
+&lt;/script&gt;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="proj-todo"> <label>أنجزت المشروع</label></div>
+    </section>
+
+    <section class="card lesson" id="proj-quiz">
+      <h2>مشروع 3: كويز بسيط</h2>
+<pre><code>&lt;div id="q"&gt;ما وسم العنوان الأكبر؟&lt;/div&gt;
+&lt;button data-a="h1"&gt;h1&lt;/button&gt; &lt;button data-a="h6"&gt;h6&lt;/button&gt;
+&lt;script&gt;
+  document.querySelectorAll('[data-a]').forEach(b=>{
+    b.onclick=()=>alert(b.dataset.a==='h1'?'صحيح ✅':'خطأ ❌');
+  });
+&lt;/script&gt;</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="proj-quiz"> <label>أنجزت المشروع</label></div>
+    </section>
+
+    <section class="card lesson" id="challenges">
+      <h2>تحديات يومية (30 يومًا)</h2>
+      <ol>
+        <li>HTML فقط: صفحة سيرة ذاتية.</li>
+        <li>HTML+CSS: بطاقة منتج.</li>
+        <li>… تابع ابتكارك حتى اليوم 30: موقع شخصي كامل.</li>
+      </ol>
+      <div class="check"><input type="checkbox" data-done="challenges"> <label>بدأت التحديات</label></div>
+    </section>
+
+    <!-- ========== Certificate ========== -->
+    <section class="card lesson" id="certificate">
+      <h2>🎓 شهادة الإتمام</h2>
+      <p class="muted">بعد وصول التقدم إلى 100% يمكنك توليد شهادة PDF باسمك.</p>
+      <div class="grid-2">
+        <div class="cert-preview">
+          <h3>Academy of Front‑End</h3>
+          <p>هذه شهادة تفيد بأن</p>
+          <h2 id="certNamePrev">اسم الطالب</h2>
+          <p>قد أتم مسار الفرونت‑إند الأساسي بنجاح.</p>
+          <small id="certDatePrev"></small>
+        </div>
+        <div>
+          <label>اسمك الكامل</label>
+          <input id="certName" placeholder="اكتب اسمك" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text)">
+          <button class="btn" id="makeCert" style="margin-top:10px">إنشاء الشهادة PDF</button>
+          <p class="muted">تنويه: شهادة تدريب غير أكاديمية، للاستخدام التحفيزي وضمّها في بورتفوليو.</p>
+        </div>
+      </div>
+      <div class="check"><input type="checkbox" data-done="certificate"> <label>استلمت الشهادة</label></div>
+    </section>
+  </main>
+</div>
+
+<!-- ========== Quiz Modal ========== -->
+<dialog id="quizModal">
+  <div class="modal-head">
+    <strong>🧪 اختبار سريع</strong><span class="tag">5 أسئلة</span>
+    <button class="ghost" id="closeQuiz" style="margin-inline-start:auto">إغلاق</button>
+  </div>
+  <div class="modal-body" id="quizBody"></div>
+  <div class="modal-foot">
+    <button class="btn secondary" id="resetQuiz">إعادة</button>
+    <button class="btn" id="submitQuiz">تحقق من الإجابات</button>
+  </div>
+</dialog>
+
+<!-- ========== Certificate Modal (silent; uses jsPDF CDN) ========== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-/lG8Hchm9X5zCq9t8H1G4uQ0m9p8k1mXG7qk8y8jS1bI6V9nqQe9QZ9g2wH8v7D0E1l5kM6x0b8v3G0cGm7qVw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+/* ========== Utilities ========== */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const LS = {
+  get: k => JSON.parse(localStorage.getItem(k) || "null"),
+  set: (k,v) => localStorage.setItem(k, JSON.stringify(v))
+};
+
+/* ========== Theme Toggle ========== */
+const root = document.body;
+const savedMode = LS.get("mode");
+if(savedMode === "light") root.classList.add("light");
+$("#modeBtn").onclick = () => {
+  root.classList.toggle("light");
+  LS.set("mode", root.classList.contains("light") ? "light":"dark");
+};
+
+/* ========== Start Button ========== */
+$("#startBtn").onclick = () => document.getElementById("html-intro").scrollIntoView({behavior:"smooth"});
+
+/* ========== Search Lessons ========== */
+$("#search").addEventListener("input", e=>{
+  const q = e.target.value.toLowerCase();
+  $$("#content .lesson").forEach(sec=>{
+    const hit = sec.textContent.toLowerCase().includes(q);
+    sec.style.display = hit ? "" : "none";
+  });
+});
+
+/* ========== Copy & Live Run ========== */
+$$(".code-actions .copy").forEach(btn=>{
+  btn.onclick = () => {
+    const code = btn.closest(".card").querySelector("pre code").innerText;
+    navigator.clipboard.writeText(code);
+    btn.textContent = "✅ نُسخ";
+    setTimeout(()=>btn.textContent="نسخ",1200);
+  };
+});
+$$(".code-actions .run").forEach(btn=>{
+  btn.onclick = () => {
+    const card = btn.closest(".card");
+    const code = card.querySelector("pre code").innerText;
+    const iframe = card.querySelector("iframe");
+    if(!iframe) return;
+    const doc = iframe.contentDocument;
+    doc.open(); doc.write(code); doc.close();
+  };
+});
+
+/* ========== Progress Tracking ========== */
+const checks = $$("input[type='checkbox'][data-done]");
+function updateProgress(){
+  const total = checks.length;
+  const done = checks.filter(c=>c.checked).length;
+  const percent = Math.round((done/total)*100) || 0;
+  $("#bar").style.width = percent + "%";
+  $("#progressText").textContent = percent + "%";
+  // Badges
+  const holder = $("#badges");
+  holder.innerHTML = "";
+  const mk = (txt)=>{const s=document.createElement("span"); s.className="pill"; s.textContent=txt; return s;};
+  if(percent>=10) holder.appendChild(mk("🔥 البداية"));
+  if(percent>=40) holder.appendChild(mk("💡 ثابت في التعلم"));
+  if(percent>=70) holder.appendChild(mk("⚡ متقدم"));
+  if(percent===100) holder.appendChild(mk("🏆 أنهيت المسار"));
+  // Cert preview date
+  document.getElementById("certDatePrev").textContent =
+    "التاريخ: " + new Date().toLocaleDateString();
+}
+checks.forEach(c=>{
+  const k = "done:"+c.dataset.done;
+  c.checked = !!LS.get(k);
+  c.addEventListener("change", ()=>{
+    LS.set(k, c.checked);
+    updateProgress();
+  });
+});
+updateProgress();
+
+/* ========== Quiz Modal ========== */
+const quiz = [
+  {q:"ما وسم العنوان الأكبر؟", choices:["h1","h6","title"], a:0},
+  {q:"أي خاصية تغيّر لون النص؟", choices:["font-size","color","background"], a:1},
+  {q:"أي تخطيط ينسّق العناصر على محور رئيسي؟", choices:["Flexbox","Grid","Float"], a:0},
+  {q:"أين نربط ملف CSS خارجي؟", choices:["داخل body","داخل head","لا يمكن"], a:1},
+  {q:"ما API التخزين المحلي على المتصفح؟", choices:["sessionDB","localStorage","browserStore"], a:1},
+];
+function renderQuiz(){
+  const host = $("#quizBody"); host.innerHTML="";
+  quiz.forEach((it,i)=>{
+    const wrap = document.createElement("div");
+    wrap.style.marginBottom="12px";
+    wrap.innerHTML = `<strong>${i+1}. ${it.q}</strong><div style="display:grid;gap:6px;margin-top:6px">
+      ${it.choices.map((c,ci)=>`<label style="display:flex;gap:8px;align-items:center">
+        <input type="radio" name="q${i}" value="${ci}"> ${c}
+      </label>`).join("")}
+    </div>`;
+    host.appendChild(wrap);
+  });
+}
+$("#quizBtn").onclick = ()=>{ renderQuiz(); $("#quizModal").showModal(); };
+$("#closeQuiz").onclick = ()=>$("#quizModal").close();
+$("#resetQuiz").onclick = ()=>renderQuiz();
+$("#submitQuiz").onclick = ()=>{
+  let score=0;
+  quiz.forEach((it,i)=>{
+    const v = document.querySelector(`input[name="q${i}"]:checked`);
+    if(v && Number(v.value)===it.a) score++;
+  });
+  const total = quiz.length;
+  const pct = Math.round((score/total)*100);
+  $("#quizBody").insertAdjacentHTML("beforeend", `<div class="note" style="margin-top:10px">
+    نتيجتك: <strong>${score}/${total}</strong> (${pct}%)
+  </div>`);
+};
+
+/* ========== Certificate ========== */
+const nameInput = $("#certName");
+const namePrev = $("#certNamePrev");
+nameInput.addEventListener("input", ()=> namePrev.textContent = nameInput.value || "اسم الطالب");
+$("#certOpen").onclick = ()=> document.getElementById("certificate").scrollIntoView({behavior:"smooth"});
+
+document.getElementById("makeCert").onclick = async ()=>{
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:"landscape", unit:"pt", format:"a4"});
+  const N = (nameInput.value || "طالب مجتهد").trim();
+  // Frame
+  doc.setFillColor(9, 14, 36); doc.rect(0,0,842,595,"F");
+  doc.setDrawColor(34,211,238); doc.setLineWidth(4); doc.roundedRect(24,24,842-48,595-48,14,14,"S");
+  // Title
+  doc.setTextColor(255,255,255); doc.setFontSize(28);
+  doc.text("Academy of Front‑End", 421, 120, {align:"center"});
+  // Subtitle
+  doc.setTextColor(160,208,255); doc.setFontSize(14);
+  doc.text("تشهد الأكاديمية بأن صاحب الاسم أدناه قد أتم مسار الفرونت‑إند الأساسي.", 421, 160, {align:"center"});
+  // Name
+  doc.setTextColor(255,255,255); doc.setFontSize(36);
+  doc.text(N, 421, 240, {align:"center"});
+  // Meta
+  doc.setFontSize(14); doc.setTextColor(180,225,255);
+  doc.text(`التاريخ: ${new Date().toLocaleDateString()}`, 140, 320);
+  doc.text("المدة: شهر تدريبي | HTML • CSS • JS | مشاريع وتمارين", 140, 350);
+  // Sign
+  doc.setDrawColor(96,165,250); doc.line(600, 340, 760, 340);
+  doc.setTextColor(200,230,255); doc.text("التوقيع", 680, 360, {align:"center"});
+  doc.save("FrontEnd-Certificate.pdf");
+};
+
+/* ========== Smooth anchors & hash highlight (optional nicety) ========== */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener("click", e=>{
+    const id = a.getAttribute("href").substring(1);
+    const target = document.getElementById(id);
+    if(target){ e.preventDefault(); target.scrollIntoView({behavior:"smooth"}); }
+  });
+});
+</script>
+</body>
+</html>
+

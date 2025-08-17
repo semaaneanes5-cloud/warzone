@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تعلم الرؤية الحاسوبية (Computer Vision)</title>
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      direction: rtl;
+    }
+    header {
+      text-align: center;
+      padding: 50px 20px;
+    }
+    header h1 { font-size: 40px; margin-bottom: 10px; }
+    header p { font-size: 18px; opacity: 0.8; }
+    .lesson-container {
+      max-width: 950px;
+      margin: auto;
+      background: rgba(255,255,255,0.07);
+      border-radius: 15px;
+      padding: 30px;
+      min-height: 400px;
+    }
+    .lesson { display: none; animation: fadeIn 0.5s; }
+    .lesson.active { display: block; }
+    .lesson h2 { margin-bottom: 10px; }
+    .lesson pre {
+      background: #111;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: left;
+      direction: ltr;
+      overflow-x: auto;
+      color: #00ffcc;
+    }
+    .result {
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .video {
+      margin-top: 15px;
+    }
+    .video a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .controls {
+      text-align: center;
+      margin-top: 25px;
+    }
+    .btn {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .next { background: #fff; color: #333; }
+    .prev { background: #333; color: #fff; }
+    .btn:hover { transform: scale(1.05); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background: rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>👁️‍🗨️ تعلم الرؤية الحاسوبية (Computer Vision)</h1>
+    <p>رحلة عملية من OpenCV إلى الشبكات العصبية CNN مع تطبيقات عملية</p>
+  </header>
+
+  <div class="lesson-container">
+    <!-- الدروس -->
+    <div class="lesson active">
+      <h2>1️⃣ مقدمة في Computer Vision</h2>
+      <p>مفهوم الرؤية الحاسوبية وتطبيقاته (التعرف على الصور، كشف الوجوه...)</p>
+      <pre># تثبيت مكتبة OpenCV
+pip install opencv-python</pre>
+      <div class="result">📌 النتيجة: جاهزية بيئة العمل</div>
+      <div class="video"><a href="https://youtu.be/oXlwWbU8l2o" target="_blank">🎥 مشاهدة الفيديو</a></div>
+    </div>
+
+    <div class="lesson">
+      <h2>2️⃣ قراءة صورة</h2>
+      <pre>import cv2
+img = cv2.imread("image.jpg")
+cv2.imshow("صورة", img)
+cv2.waitKey(0)</pre>
+      <div class="result">📌 النتيجة: عرض صورة على الشاشة</div>
+      <div class="video"><a href="https://youtu.be/8gPONnGIPgw" target="_blank">🎥 فيديو الشرح</a></div>
+    </div>
+
+    <div class="lesson">
+      <h2>3️⃣ التحويل إلى تدرج رمادي</h2>
+      <pre>gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)</pre>
+      <div class="result">📌 النتيجة: صورة بالأبيض والأسود</div>
+      <div class="video"><a href="https://youtu.be/Xk_VAnGx6pA" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <div class="lesson">
+      <h2>4️⃣ تغيير حجم الصورة</h2>
+      <pre>resized = cv2.resize(img, (300,300))</pre>
+      <div class="result">📌 النتيجة: صورة مصغرة</div>
+      <div class="video"><a href="https://youtu.be/s4jtkzHhLzY" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <div class="lesson">
+      <h2>5️⃣ الكشف عن الحواف (Canny)</h2>
+      <pre>edges = cv2.Canny(gray, 100, 200)</pre>
+      <div class="result">📌 النتيجة: صورة تحتوي على الحواف</div>
+      <div class="video"><a href="https://youtu.be/PMW0a2Mm7xE" target="_blank">🎥 فيديو</a></div>
+    </div>
+
+    <!-- ✨ يمكنك تكرار بقية الدروس حتى 20 (كشف الوجوه، تتبع الكائنات، CNN، التعرف على الصور...) -->
+
+    <div class="lesson">
+      <h2>2️⃣0️⃣ مشروع عملي: كشف الوجوه</h2>
+      <pre>face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+faces = face_cascade.detectMultiScale(gray, 1.1, 4)</pre>
+      <div class="result">📌 النتيجة: تحديد مربعات حول الوجوه</div>
+      <div class="video"><a href="https://youtu.be/88HdqNDQsEk" target="_blank">🎥 فيديو المشروع</a></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn prev" onclick="prevLesson()">⬅ السابق</button>
+      <button class="btn next" onclick="nextLesson()">التالي ➡</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 منصة تعلم البرمجة | جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    let currentLesson = 0;
+    const lessons = document.querySelectorAll(".lesson");
+
+    function showLesson(index) {
+      lessons.forEach((lesson, i) => {
+        lesson.classList.remove("active");
+        if (i === index) lesson.classList.add("active");
+      });
+    }
+
+    function nextLesson() {
+      if (currentLesson < lessons.length - 1) {
+        currentLesson++;
+        showLesson(currentLesson);
+      }
+    }
+
+    function prevLesson() {
+      if (currentLesson > 0) {
+        currentLesson--;
+        showLesson(currentLesson);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مسار الفول ستاك | Front + Back + DB + نشر</title>
+<meta name="description" content="مسار فول ستاك عملي: MERN, PERN, Laravel+Vue, Next.js+NestJS، قاعدة بيانات، مصادقة، CI/CD، Docker Compose، Nginx، مشروع نهائي وشهادة PDF.">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  :root{
+    --bg:#0b1224;--card:#0f172a;--muted:#94a3b8;--border:#1f2937;--brand:#22d3ee;--brand2:#60a5fa;--accent:#34d399;--text:#e5eefb;--text2:#cbd5e1;--code:#0b1021;--codeb:#1f2a44
+  }
+  body{font-family:system-ui,-apple-system,"Segoe UI","Cairo",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+  .light{--bg:#f7fafc;--card:#ffffff;--muted:#475569;--border:#e5e7eb;--brand:#06b6d4;--brand2:#2563eb;--accent:#10b981;--text:#0f172a;--text2:#334155;--code:#0b1021;--codeb:#cbd5e1;background:var(--bg);color:var(--text)}
+  a{color:var(--brand2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  header.hero{position:relative;border-bottom:1px solid var(--border);
+    background:radial-gradient(1000px 350px at 95% -10%, rgba(34,211,238,.14), transparent 70%),
+               radial-gradient(800px 300px at 0% 0%, rgba(96,165,250,.14), transparent 60%),
+               linear-gradient(180deg, rgba(2,6,23,1) 0%, rgba(2,6,23,.8) 100%)}
+  .hero-inner{max-width:1200px;margin:auto;padding:56px 24px 28px}
+  .badge{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text2);padding:8px 12px;border-radius:999px;font-size:14px}
+  .title{font-size:clamp(28px,5vw,50px);margin:16px 0 8px}
+  .subtitle{color:var(--text2);max-width:940px}
+  .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;border:none}
+  .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+  .toggle{margin-inline-start:auto}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;color:var(--text2)}
+  .chip{border:1px dashed var(--border);padding:6px 10px;border-radius:999px}
+  .container{display:grid;grid-template-columns:280px 1fr;gap:24px;max-width:1200px;margin:auto;padding:24px}
+  aside{position:sticky;top:16px;align-self:start;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;height:max-content;max-height:calc(100vh - 32px);overflow:auto}
+  .logo{display:flex;gap:8px;align-items:center;font-weight:900}
+  .search{margin-top:12px;display:flex;gap:8px}
+  .search input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text)}
+  .progress-wrap{margin-top:12px}
+  .progress{height:10px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;border:1px solid var(--border)}
+  .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--brand));transition:width .3s}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .pill{border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
+  nav.toc{margin-top:12px;display:grid;gap:6px}
+  .toc details{border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:rgba(255,255,255,.02)}
+  .toc summary{cursor:pointer;font-weight:700;list-style:none}
+  .toc a{display:block;padding:6px 8px;border-radius:8px}
+  .toc a:hover{background:rgba(34,211,238,.12)}
+  main{display:grid;gap:24px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
+  .card h2{margin:0 0 8px}
+  .muted{color:var(--muted)}
+  .lesson{scroll-margin-top:90px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .tab{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.04);cursor:pointer}
+  .tab.active{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-color:transparent}
+  pre{background:var(--code);color:#d1e9ff;border:1px solid var(--codeb);padding:14px;border-radius:12px;overflow:auto}
+  .code-actions{display:flex;gap:8px;margin:8px 0 0}
+  .ghost{background:transparent;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:8px;cursor:pointer}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .note{background:linear-gradient(135deg, rgba(34,211,238,.1), rgba(99,102,241,.1));border:1px dashed var(--border);padding:12px;border-radius:12px}
+  dialog{border:none;border-radius:16px;padding:0;width:min(760px,96vw);background:var(--card);color:var(--text)}
+  .modal-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+  .modal-body{padding:20px}
+  .modal-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+  .tag{display:inline-block;padding:4px 8px;border-radius:8px;background:rgba(52,211,153,.15);color:#10b981;border:1px solid var(--border);font-size:12px}
+  .kbd{border:1px solid var(--border);padding:2px 6px;border-radius:6px;background:rgba(255,255,255,.06)}
+  .cert-preview{border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center;background:linear-gradient(180deg, rgba(34,211,238,.05), transparent)}
+  @media (max-width:980px){.container{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}aside{position:relative;top:0;max-height:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <span class="badge">🌐 فول ستاك كامل • Front + Back + DB + نشر</span>
+    <h1 class="title">مسار الفول ستاك: من واجهة تلمع إلى API قوي ونشر إنتاجي</h1>
+    <p class="subtitle">اختر مسارك (MERN / PERN / Laravel+Vue / Next.js+NestJS). تعلّم المصادقة، إدارة الحالة، ORM، Docker Compose، Nginx، CI/CD. تتبّع تقدّمك واطبع شهادة PDF باسمك.</p>
+    <div class="hero-actions">
+      <button class="btn" id="startBtn">ابدأ الآن</button>
+      <button class="btn secondary" id="quizBtn">اختبار سريع</button>
+      <button class="btn secondary toggle" id="modeBtn">الوضع الداكن/الفاتح</button>
+    </div>
+    <div class="chips">
+      <span class="chip">🗓️ خطة 4 أسابيع</span>
+      <span class="chip">🔐 Auth + JWT</span>
+      <span class="chip">🐳 Docker Compose</span>
+      <span class="chip">🚀 Nginx + CI/CD</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <aside>
+    <div class="logo">🧭 <span>الملاحة</span></div>
+    <div class="search"><input id="search" placeholder="ابحث داخل الدروس…"></div>
+    <div class="progress-wrap">
+      <div style="display:flex;gap:8px;align-items:center;margin:8px 0 6px"><strong>التقدم</strong><span class="pill"><span id="progressText">0%</span></span></div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="badges" id="badges"></div>
+    </div>
+    <nav class="toc" id="toc">
+      <details open>
+        <summary>الأساسيات</summary>
+        <a href="#fs-intro">ما هو الفول ستاك؟</a>
+        <a href="#fs-arch">تصميم المعمارية</a>
+        <a href="#fs-state">إدارة الحالة والاتصال</a>
+      </details>
+      <details>
+        <summary>اختر مسارك</summary>
+        <a href="#track-tabs">MERN / PERN / Laravel+Vue / Next+Nest</a>
+      </details>
+      <details>
+        <summary>المشتركات</summary>
+        <a href="#auth">المصادقة</a>
+        <a href="#orm">ORM و Migrations</a>
+        <a href="#forms">نماذج واستدعاءات</a>
+      </details>
+      <details>
+        <summary>البنية التحتية</summary>
+        <a href="#docker">Docker Compose</a>
+        <a href="#nginx">Nginx Reverse Proxy</a>
+        <a href="#ci">CI/CD</a>
+      </details>
+      <details>
+        <summary>المشروع النهائي</summary>
+        <a href="#final-project">تطبيق مهام مع صلاحيات</a>
+      </details>
+      <details>
+        <summary>الشهادة</summary>
+        <a href="#certificate">شهادة PDF</a>
+      </details>
+    </nav>
+    <div style="margin-top:16px"><button class="btn" id="certOpen">🎓 الحصول على الشهادة</button></div>
+  </aside>
+
+  <main id="content">
+    <!-- Intro -->
+    <section class="card lesson" id="fs-intro">
+      <h2>ما هو الفول ستاك؟</h2>
+      <p class="muted">مطور يربط بين واجهة المستخدم (Front-End) والخادم (Back-End) وقاعدة البيانات والبنية التحتية. الهدف: بناء منتج يعمل فعليًا من أول صفحة حتى عملية النشر.</p>
+      <div class="note">ستحتاج أساسيات HTML/CSS/JS + لغة باك-إند + قاعدة بيانات + أدوات نشر.</div>
+      <div class="check"><input type="checkbox" data-done="fs-intro"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="fs-arch">
+      <h2>تصميم المعمارية</h2>
+      <div class="grid-2">
+        <div>
+<pre><code>Client (React/Vue/Next)
+   ⬇ fetch/axios
+API (Express/Nest/Laravel)
+   ⬇ ORM
+Database (Mongo/Postgres/MySQL)
+Infra (Docker, Nginx, CI/CD)</code></pre>
+          <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+        </div>
+        <div class="note">قسم المسؤوليات، ضع الـ API في نطاق واضح، وتأكد من استخدام .env للفصل بين الإعدادات.</div>
+      </div>
+      <div class="check"><input type="checkbox" data-done="fs-arch"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="fs-state">
+      <h2>إدارة الحالة والاتصال</h2>
+      <ul>
+        <li>حالة محلية (useState/Pinia/Vuex) + إدارة auth token.</li>
+        <li>تنسيق بيانات متسق (DTO/Types) بين الواجهة والـ API.</li>
+        <li>التخزين المؤقت (React Query) وتقليل المكالمات.</li>
+      </ul>
+      <div class="check"><input type="checkbox" data-done="fs-state"> <label>تم</label></div>
+    </section>
+
+    <!-- Tracks -->
+    <section class="card lesson" id="track-tabs">
+      <h2>اختر مسارك (تبويبات عملية)</h2>
+      <div class="tabs">
+        <button class="tab active" data-tab="mern">🟢 MERN (React + Express + Mongo)</button>
+        <button class="tab" data-tab="pern">🔵 PERN (React + Express + Postgres)</button>
+        <button class="tab" data-tab="laravel">🐘 Laravel + Vue</button>
+        <button class="tab" data-tab="nextnest">⚡ Next.js + NestJS</button>
+      </div>
+
+      <!-- MERN -->
+      <div data-pane="mern">
+        <h3>MERN: نقطة بدء سريعة</h3>
+<div class="grid-2">
+<div>
+<pre><code>// server.js (Express + Mongo)
+const express=require("express");
+const mongoose=require("mongoose");
+const cors=require("cors"); const app=express();
+app.use(cors()); app.use(express.json());
+
+mongoose.connect(process.env.MONGO_URI);
+
+const Task = mongoose.model("Task", new mongoose.Schema({
+  title:String, done:{type:Boolean,default:false}, owner:String
+}));
+
+app.get("/api/tasks", async (req,res)=>res.json(await Task.find()));
+app.post("/api/tasks", async (req,res)=>{
+  const t=await Task.create({title:req.body.title, owner:req.body.owner});
+  res.status(201).json(t);
+});
+app.put("/api/tasks/:id", async (req,res)=>{
+  const t=await Task.findByIdAndUpdate(req.params.id, req.body, {new:true});
+  res.json(t);
+});
+app.delete("/api/tasks/:id", async (req,res)=>{
+  await Task.findByIdAndDelete(req.params.id); res.json({ok:true});
+});
+
+app.listen(3000,()=>console.log("API on :3000"));</code></pre>
+<div class="code-actions"><button class="ghost copy">نسخ</button></div>
+</div>
+<div>
+<pre><code>// React (App.jsx)
+import {useEffect,useState} from "react";
+const API=import.meta.env.VITE_API||"http://localhost:3000";
+
+export default function App(){
+  const [tasks,setTasks]=useState([]), [title,setTitle]=useState("");
+  useEffect(()=>{fetch(API+"/api/tasks").then(r=>r.json()).then(setTasks)},[]);
+  const add=async()=>{
+    const r=await fetch(API+"/api/tasks",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({title,owner:"user"})});
+    setTitle(""); setTasks(t=>[...t, await r.json()]);
+  };
+  return (<main>
+    <h1>قائمة المهام</h1>
+    <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="مهمة جديدة"/>
+    <button onClick={add}>إضافة</button>
+    <ul>{tasks.map(t=><li key={t._id}>{t.title}</li>)}</ul>
+  </main>);
+}</code></pre>
+<div class="code-actions"><button class="ghost copy">نسخ</button></div>
+</div>
+</div>
+      </div>
+
+      <!-- PERN -->
+      <div data-pane="pern" hidden>
+        <h3>PERN: Express + Postgres + Prisma</h3>
+<pre><code>// prisma/schema.prisma
+datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+generator client { provider = "prisma-client-js" }
+model Task { id Int @id @default(autoincrement()) title String done Boolean @default(false) owner String }</code></pre>
+<pre><code>// server.ts
+import express from "express"; import {PrismaClient} from "@prisma/client";
+const app=express(); const prisma=new PrismaClient(); app.use(express.json());
+app.get("/api/tasks", async (_,res)=>res.json(await prisma.task.findMany()));
+app.post("/api/tasks", async (req,res)=>res.status(201).json(await prisma.task.create({data:req.body})));
+app.listen(3001,()=>console.log("PERN API on :3001"));</code></pre>
+        <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      </div>
+
+      <!-- Laravel + Vue -->
+      <div data-pane="laravel" hidden>
+        <h3>Laravel + Vue: هيكلة سريعة</h3>
+<pre><code># إنشاء مشروع
+composer create-project laravel/laravel app
+php artisan make:model Task -mcr</code></pre>
+<pre><code>// routes/api.php
+Route::apiResource('tasks', TaskController::class);</code></pre>
+<pre><code>// app/Http/Controllers/TaskController.php (مختصر)
+public function index(){ return Task::all(); }
+public function store(Request $r){ return Task::create($r->all()); }</code></pre>
+<pre><code>// Vue (Tasks.vue)
+&lt;script setup&gt;
+import {ref,onMounted} from 'vue'
+const tasks=ref([]), title=ref(""); const API=import.meta.env.VITE_API;
+onMounted(async()=>tasks.value=await (await fetch(API+'/api/tasks')).json());
+async function add(){ const r=await fetch(API+'/api/tasks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:title.value})}); tasks.value.push(await r.json()); title.value=""; }
+&lt;/script&gt;</code></pre>
+        <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      </div>
+
+      <!-- Next + Nest -->
+      <div data-pane="nextnest" hidden>
+        <h3>Next.js + NestJS: SSR + طبقات نظيفة</h3>
+<pre><code>// NestJS task.module.ts (مختصر)
+@Module({ controllers:[TaskController], providers:[TaskService, PrismaService] }) export class TaskModule {}</code></pre>
+<pre><code>// Next.js (app/page.tsx)
+export default async function Page(){
+  const tasks = await fetch(process.env.API+"/api/tasks",{cache:"no-store"}).then(r=>r.json());
+  return (<main><h1>مهامي</h1><ul>{tasks.map((t:any)=><li key={t.id}>{t.title}</li>)}</ul></main>);
+}</code></pre>
+        <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      </div>
+      <div class="check"><input type="checkbox" data-done="track-tabs"> <label>اخترت مسارك</label></div>
+    </section>
+
+    <!-- Shared topics -->
+    <section class="card lesson" id="auth">
+      <h2>المصادقة: JWT + حماية المسارات</h2>
+<pre><code>// Express Middleware
+function auth(req,res,next){
+  const token=(req.headers.authorization||"").replace("Bearer ","");
+  try{ req.user=require("jsonwebtoken").verify(token, process.env.JWT_SECRET); next(); }
+  catch{ return res.status(401).json({error:"unauthorized"}); }
+}</code></pre>
+<pre><code>// Front-end: تخزين وحذف التوكن
+localStorage.setItem("token", token); // عند الدخول
+localStorage.removeItem("token");     // عند الخروج</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="note">يفضل استخدام HttpOnly Cookies في بيئات الإنتاج لتقليل مخاطر XSS.</div>
+      <div class="check"><input type="checkbox" data-done="auth"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="orm">
+      <h2>ORM & Migrations</h2>
+<pre><code>// Sequelize (مثال)
+const {Sequelize, DataTypes}=require("sequelize");
+const db=new Sequelize(process.env.DB_URL);
+const Task=db.define("Task",{title:DataTypes.STRING, done:DataTypes.BOOLEAN});
+await db.sync();</code></pre>
+<pre><code># Prisma
+npx prisma migrate dev --name init</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="orm"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="forms">
+      <h2>النماذج والطلبات من الواجهة</h2>
+<pre><code>// fetch مع معالجة أخطاء
+async function api(path, options={}){
+  const r = await fetch(API+path,{headers:{'Content-Type':'application/json',Authorization:`Bearer ${localStorage.token||''}`}, ...options});
+  if(!r.ok) throw new Error((await r.json()).error||"Error");
+  return r.json();
+}</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="forms"> <label>تم</label></div>
+    </section>
+
+    <!-- Infra -->
+    <section class="card lesson" id="docker">
+      <h2>Docker Compose: تشغيل الكل</h2>
+<pre><code># docker-compose.yml (MERN مثال)
+version: "3.9"
+services:
+  api:
+    build: ./api
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/app
+      - JWT_SECRET=supersecret
+    ports: ["3000:3000"]
+    depends_on: [mongo]
+  web:
+    build: ./web
+    environment:
+      - VITE_API=http://localhost:3000
+    ports: ["5173:5173"]
+  mongo:
+    image: mongo:6
+    volumes: [mongo-data:/data/db]
+volumes: { mongo-data: {} }</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="docker"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="nginx">
+      <h2>Nginx: عكس وكيل وتوجيه</h2>
+<pre><code>server {
+  listen 80;
+  server_name example.com;
+  location / { proxy_pass http://web:5173; }
+  location /api/ { proxy_pass http://api:3000/; }
+  add_header Strict-Transport-Security "max-age=31536000" always;
+}</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="nginx"> <label>تم</label></div>
+    </section>
+
+    <section class="card lesson" id="ci">
+      <h2>CI/CD: فحص وبناء ونشر</h2>
+<pre><code># .github/workflows/ci.yml
+name: ci
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 18 }
+      - run: npm ci && npm -w web run build
+      - run: npm -w api ci && npm -w api test</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="check"><input type="checkbox" data-done="ci"> <label>تم</label></div>
+    </section>
+
+    <!-- Final Project -->
+    <section class="card lesson" id="final-project">
+      <h2>المشروع النهائي: لوحة مهام مع أدوار وصلاحيات</h2>
+      <ol>
+        <li>Roles: <span class="kbd">admin</span>، <span class="kbd">user</span></li>
+        <li>ميزات: تسجيل/دخول، CRUD مهام، تعيين مهام لمستخدمين، فلترة وبحث.</li>
+        <li>صلاحيات: المستخدم يرى مهامه فقط — المشرف يرى الجميع.</li>
+      </ol>
+<pre><code>// Express RBAC (مختصر)
+function allowRole(...roles){
+  return (req,res,next)=> roles.includes(req.user.role) ? next() : res.status(403).json({error:"forbidden"});
+}
+app.delete("/api/tasks/:id", auth, allowRole("admin"), async (req,res)=>{ /* ... */ });</code></pre>
+      <div class="code-actions"><button class="ghost copy">نسخ</button></div>
+      <div class="note">نصحية: ابدأ بواجهة بسيطة ثم أضف الميزات تدريجيًا (Auth → CRUD → Roles → Uploads → Notifications).</div>
+      <div class="check"><input type="checkbox" data-done="final-project"> <label>أنجزت المشروع</label></div>
+    </section>
+
+    <!-- Certificate -->
+    <section class="card lesson" id="certificate">
+      <h2>🎓 شهادة الإتمام</h2>
+      <p class="muted">بعد إكمال جميع الدروس والمشروع، أنشئ شهادة PDF باسمك.</p>
+      <div class="grid-2">
+        <div class="cert-preview">
+          <h3>Full-Stack Engineering Track</h3>
+          <p>هذه شهادة تفيد بأن</p>
+          <h2 id="certNamePrev">اسم الطالب</h2>
+          <p>قد أتم مسار الفول ستاك الأساسي بنجاح.</p>
+          <small id="certDatePrev"></small>
+        </div>
+        <div>
+          <label>اسمك الكامل</label>
+          <input id="certName" placeholder="اكتب اسمك" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text)">
+          <button class="btn" id="makeCert" style="margin-top:10px">إنشاء الشهادة PDF</button>
+          <p class="muted">شهادة تدريب غير أكاديمية — مناسبة للبورتفوليو و LinkedIn.</p>
+        </div>
+      </div>
+      <div class="check"><input type="checkbox" data-done="certificate"> <label>استلمت الشهادة</label></div>
+    </section>
+  </main>
+</div>
+
+<!-- Quiz Modal -->
+<dialog id="quizModal">
+  <div class="modal-head">
+    <strong>🧪 اختبار سريع</strong><span class="tag">5 أسئلة</span>
+    <button class="ghost" id="closeQuiz" style="margin-inline-start:auto">إغلاق</button>
+  </div>
+  <div class="modal-body" id="quizBody"></div>
+  <div class="modal-foot">
+    <button class="btn secondary" id="resetQuiz">إعادة</button>
+    <button class="btn" id="submitQuiz">تحقق من الإجابات</button>
+  </div>
+</dialog>
+
+<!-- jsPDF for certificate -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+/* Helpers */
+const $ = s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const LS = {get:k=>JSON.parse(localStorage.getItem(k)||"null"), set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+
+/* Theme */
+const root=document.body, savedMode=LS.get("mode-fullstack"); if(savedMode==="light") root.classList.add("light");
+$("#modeBtn").onclick=()=>{root.classList.toggle("light"); LS.set("mode-fullstack", root.classList.contains("light")?"light":"dark");};
+
+/* Start scroll */
+$("#startBtn").onclick=()=>document.getElementById("fs-intro").scrollIntoView({behavior:"smooth"});
+
+/* Search */
+$("#search").addEventListener("input", e=>{
+  const q=e.target.value.toLowerCase();
+  $$("#content .lesson").forEach(sec=>sec.style.display = sec.textContent.toLowerCase().includes(q) ? "" : "none");
+});
+
+/* Copy buttons */
+document.addEventListener("click", e=>{
+  if(e.target.classList.contains("copy")){
+    const code=e.target.closest(".card").querySelector("pre code").innerText;
+    navigator.clipboard.writeText(code); e.target.textContent="✅ نُسخ"; setTimeout(()=>e.target.textContent="نسخ",1200);
+  }
+});
+
+/* Tabs */
+const tabs=$$(".tab"), panes=$$("[data-pane]");
+tabs.forEach(t=>t.onclick=()=>{
+  tabs.forEach(x=>x.classList.remove("active")); t.classList.add("active");
+  panes.forEach(p=>p.hidden = p.getAttribute("data-pane")!==t.dataset.tab);
+});
+
+/* Progress */
+const checks=$$("input[type='checkbox'][data-done]");
+function updateProgress(){
+  const total=checks.length, done=checks.filter(c=>c.checked).length, pct=Math.round(done/total*100)||0;
+  $("#bar").style.width=pct+"%"; $("#progressText").textContent=pct+"%";
+  const holder=$("#badges"); holder.innerHTML="";
+  const mk=t=>{const s=document.createElement("span"); s.className="pill"; s.textContent=t; return s;};
+  if(pct>=10) holder.appendChild(mk("🚀 البداية"));
+  if(pct>=40) holder.appendChild(mk("🧠 ثابت"));
+  if(pct>=70) holder.appendChild(mk("⚙️ مهاري"));
+  if(pct===100) holder.appendChild(mk("🏆 محترف الفول ستاك"));
+  $("#certDatePrev").textContent="التاريخ: "+new Date().toLocaleDateString();
+}
+checks.forEach(c=>{
+  const k="fs-done:"+c.dataset.done;
+  c.checked=!!LS.get(k);
+  c.addEventListener("change",()=>{LS.set(k,c.checked); updateProgress();});
+});
+updateProgress();
+
+/* Quiz */
+const quiz=[
+  {q:"ما الطبقات الرئيسية في تطبيق فول ستاك؟",choices:["Client + API + DB + Infra","API فقط","Client فقط"],a:0},
+  {q:"ما أفضل مكان للأسرار؟",choices:["الكود","Git","ملف .env/Secrets"],a:2},
+  {q:"رمز حالة إنشاء مورد جديد؟",choices:["200","201","204"],a:1},
+  {q:"أيّ اختيار يضيف SSR؟",choices:["React CRA","Next.js","Vue CLI"],a:1},
+  {q:"أداة لتشغيل الخدمات معًا؟",choices:["Babel","Docker Compose","Sass"],a:1},
+];
+function renderQuiz(){
+  const host=$("#quizBody"); host.innerHTML="";
+  quiz.forEach((it,i)=>{
+    const wrap=document.createElement("div"); wrap.style.marginBottom="12px";
+    wrap.innerHTML=`<strong>${i+1}. ${it.q}</strong><div style="display:grid;gap:6px;margin-top:6px">
+      ${it.choices.map((c,ci)=>`<label style="display:flex;gap:8px;align-items:center">
+        <input type="radio" name="q${i}" value="${ci}"> ${c}
+      </label>`).join("")}
+    </div>`;
+    host.appendChild(wrap);
+  });
+}
+$("#quizBtn").onclick=()=>{renderQuiz(); $("#quizModal").showModal();};
+$("#closeQuiz").onclick=()=>$("#quizModal").close();
+$("#resetQuiz").onclick=()=>renderQuiz();
+$("#submitQuiz").onclick=()=>{
+  let score=0; quiz.forEach((it,i)=>{const v=document.querySelector(\`input[name="q\${i}"]:checked\`); if(v && Number(v.value)===it.a) score++;});
+  const total=quiz.length, pct=Math.round(score/total*100);
+  $("#quizBody").insertAdjacentHTML("beforeend", `<div class="note" style="margin-top:10px">نتيجتك: <strong>${score}/${total}</strong> (${pct}%)</div>`);
+};
+
+/* Certificate */
+const nameInput=$("#certName"), namePrev=$("#certNamePrev");
+nameInput.addEventListener("input",()=>namePrev.textContent=nameInput.value||"اسم الطالب");
+$("#certOpen").onclick=()=>document.getElementById("certificate").scrollIntoView({behavior:"smooth"});
+document.getElementById("makeCert").onclick=()=>{
+  const { jsPDF } = window.jspdf;
+  const doc=new jsPDF({orientation:"landscape",unit:"pt",format:"a4"});
+  const N=(nameInput.value||"طالب مجتهد").trim();
+  doc.setFillColor(9,14,36); doc.rect(0,0,842,595,"F");
+  doc.setDrawColor(34,211,238); doc.setLineWidth(4); doc.roundedRect(24,24,842-48,595-48,14,14,"S");
+  doc.setTextColor(255,255,255); doc.setFontSize(28); doc.text("Full-Stack Engineering Track", 421, 120, {align:"center"});
+  doc.setTextColor(160,208,255); doc.setFontSize(14); doc.text("تشهد المنصة بإتمام مسار الفول ستاك الأساسي.", 421, 160, {align:"center"});
+  doc.setTextColor(255,255,255); doc.setFontSize(36); doc.text(N, 421, 240, {align:"center"});
+  doc.setFontSize(14); doc.setTextColor(180,225,255);
+  doc.text(`التاريخ: ${new Date().toLocaleDateString()}`, 140, 320);
+  doc.text("MERN • PERN • Laravel+Vue • Next+Nest | Auth | Docker | Nginx | CI/CD", 140, 350);
+  doc.setDrawColor(96,165,250); doc.line(600,340,760,340); doc.setTextColor(200,230,255); doc.text("التوقيع", 680, 360, {align:"center"});
+  doc.save("Fullstack-Certificate.pdf");
+};
+
+/* Smooth anchors */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener("click",e=>{
+    const id=a.getAttribute("href").substring(1), t=document.getElementById(id);
+    if(t){e.preventDefault(); t.scrollIntoView({behavior:"smooth"});}
+  });
+});
+</script>
+</body>
+</html>

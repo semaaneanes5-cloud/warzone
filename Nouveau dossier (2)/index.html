@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>منصة تعلم البرمجة</title>
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      direction: rtl;
+    }
+    header {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    header h1 {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+    header p {
+      font-size: 20px;
+      opacity: 0.9;
+    }
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    .card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.2);
+    }
+    .card h2 {
+      margin: 15px 0;
+    }
+    .sub-options {
+      display: none;
+      margin-top: 15px;
+    }
+    .sub-options a {
+      display: block;
+      margin: 8px 0;
+      padding: 10px;
+      background: #fff;
+      color: #333;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .sub-options a:hover {
+      background: #333;
+      color: #fff;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      margin-top: 50px;
+      background: rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🚀 منصة تعلم البرمجة</h1>
+    <p>اختر مجالك وابدأ رحلتك مع دروس عملية وشهادات إتمام</p>
+  </header>
+
+  <div class="container">
+    <!-- تطوير الويب -->
+    <div class="card" onclick="toggleOptions('web')">
+      <h2>💻 تطوير الويب</h2>
+      <div id="web" class="sub-options">
+        <a href="front-end.html">🎨 Front-End</a>
+        <a href="backend.html">⚙️ Back-End</a>
+        <a href="full stack.html">🌐 Full-Stack</a>
+      </div>
+    </div>
+
+    <!-- موبايل -->
+    <div class="card" onclick="toggleOptions('mobile')">
+      <h2>📱 تطوير تطبيقات الموبايل</h2>
+      <div id="mobile" class="sub-options">
+        <a href="kotlin.html">📱 Android (Java/Kotlin)</a>
+        <a href="ios.html">📱 iOS (Swift)</a>
+        <a href="cc.html">🌍 Cross-Platform (Flutter/React Native)</a>
+      </div>
+    </div>
+
+    <!-- الذكاء الاصطناعي -->
+    <div class="card" onclick="toggleOptions('ai')">
+      <h2>🤖 الذكاء الاصطناعي</h2>
+      <div id="ai" class="sub-options">
+        <a href="ml.html">🧠 Machine Learning</a>
+        <a href="cv.html">🖼️ Computer Vision</a>
+        <a href="npl.html">💬 NLP</a>
+      </div>
+    </div>
+
+    <!-- علوم البيانات -->
+    <div class="card" onclick="toggleOptions('data')">
+      <h2>📊 علوم البيانات</h2>
+      <div id="data" class="sub-options">
+        <a href="dt.html">📈 Data Analysis</a>
+        <a href="dt2.html">📉 Data Visualization</a>
+        <a href="db.html">🛠️ Big Data</a>
+      </div>
+    </div>
+</div>
+  <footer>
+    <p>© 2025 منصة تعلم البرمجة | جميع الحقوق محفوظة</p>
+	<p>تم التطويرمن قبل انس سماعن</p>
+  </footer>
+
+  <script>
+    function toggleOptions(id) {
+      const element = document.getElementById(id);
+      element.style.display = (element.style.display === "block") ? "none" : "block";
+    }
+  </script>
+</body>
+</html>
